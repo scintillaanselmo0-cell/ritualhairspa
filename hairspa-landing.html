@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ritual HairSpa — Un Rituale per i Tuoi Sensi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --gold: #B8986A;
+    --gold-light: #D4B483;
+    --gold-pale: #F5EDD9;
+    --cream: #FAF7F2;
+    --cream-dark: #F0EAE0;
+    --anthracite: #2A2A2A;
+    --anthracite-mid: #4A4A4A;
+    --sage: #8A9E8C;
+    --sage-light: #C8D8C9;
+    --sage-pale: #EFF4EF;
+    --white: #FFFFFF;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--anthracite);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184,152,106,0.18);
+    transition: box-shadow 0.3s;
+  }
+
+  header.scrolled { box-shadow: 0 2px 24px rgba(42,42,42,0.08); }
+
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--anthracite);
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .logo span {
+    font-size: 0.55rem;
+    font-family: var(--sans);
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  nav a {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--anthracite-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold) !important;
+    color: var(--white) !important;
+    padding: 0.55rem 1.3rem;
+    border-radius: 0;
+    letter-spacing: 0.18em;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--gold-light) !important; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+
+  .hamburger span {
+    width: 24px;
+    height: 1px;
+    background: var(--anthracite);
+    display: block;
+    transition: all 0.3s;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /*
+    IMMAGINE HERO — Da sostituire:
+    Sostituisci il background-image qui sotto con una foto reale del salone.
+    Descrizione dell'immagine ideale:
+    - Donna con capelli bagnati lucenti in una spa di lusso
+    - Luce calda ambrata, candele, asciugamani bianchi piegati
+    - Toni caldi: crema, beige, oro, verde salvia
+    - Formato orizzontale, alta risoluzione (min 1920x1080)
+    - Esempio: usa Unsplash query "luxury hair spa treatment"
+  */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(42,42,42,0.45) 0%, rgba(42,42,42,0.25) 50%, rgba(42,42,42,0.6) 100%),
+      url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1400&q=85') center/cover no-repeat;
+    /* ↑ Sostituisci con il percorso della tua foto: url('immagine-salone.jpg') */
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 5rem;
+    min-height: 100svh;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.3s ease forwards;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 0.3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.5s ease forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    font-family: var(--serif);
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.82);
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.7s ease forwards;
+  }
+
+  .hero-desc {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    max-width: 380px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.85s ease forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--gold);
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
+    opacity: 0;
+    animation: fadeUp 0.9s 1s ease forwards;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary svg { width: 16px; height: 16px; }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s ease forwards;
+  }
+
+  .hero-scroll span {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ── PHILOSOPHY ── */
+  .philosophy {
+    padding: 7rem 2rem;
+    background: var(--white);
+    text-align: center;
+  }
+
+  .section-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .philosophy h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    color: var(--anthracite);
+    line-height: 1.2;
+    max-width: 680px;
+    margin: 0 auto 2rem;
+  }
+
+  .philosophy h2 em { font-style: italic; color: var(--gold); }
+
+  .philosophy p {
+    font-size: 0.92rem;
+    color: var(--anthracite-mid);
+    max-width: 560px;
+    margin: 0 auto 3rem;
+    line-height: 1.9;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    border: 1px solid var(--cream-dark);
+  }
+
+  .pillar {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid var(--cream-dark);
+    text-align: center;
+  }
+
+  .pillar:last-child { border-right: none; }
+
+  .pillar-icon {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 1rem;
+    color: var(--gold);
+  }
+
+  .pillar h3 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--anthracite);
+    margin-bottom: 0.5rem;
+  }
+
+  .pillar p {
+    font-size: 0.8rem;
+    color: var(--anthracite-mid);
+    line-height: 1.8;
+    max-width: none;
+    margin: 0;
+  }
+
+  /* ── TREATMENTS ── */
+  .treatments {
+    padding: 7rem 2rem;
+    background: var(--cream);
+  }
+
+  .treatments-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .treatments-header h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    color: var(--anthracite);
+    margin-bottom: 1rem;
+  }
+
+  .treatments-header h2 em { font-style: italic; color: var(--gold); }
+
+  .treatments-header p {
+    font-size: 0.9rem;
+    color: var(--anthracite-mid);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--white);
+    border: 1px solid rgba(184,152,106,0.15);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(42,42,42,0.1);
+  }
+
+  .card-accent {
+    height: 3px;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+  }
+
+  .card-body {
+    padding: 2rem 1.8rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-number {
+    font-family: var(--serif);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+
+  .card h3 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--anthracite);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+
+  .card-duration {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--anthracite-mid);
+    letter-spacing: 0.05em;
+  }
+
+  .card-duration svg { width: 14px; height: 14px; color: var(--sage); }
+
+  .card-price {
+    font-family: var(--serif);
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: var(--anthracite);
+    letter-spacing: -0.01em;
+  }
+
+  .card-price small {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    color: var(--anthracite-mid);
+    font-weight: 300;
+    margin-left: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .card-desc {
+    font-size: 0.82rem;
+    color: var(--anthracite-mid);
+    line-height: 1.85;
+    flex: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.5rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+    width: 100%;
+  }
+
+  .btn-card:hover {
+    background: var(--gold);
+    color: var(--white);
+  }
+
+  .card.featured {
+    border-color: rgba(184,152,106,0.45);
+    background: var(--anthracite);
+  }
+
+  .card.featured .card-number { color: var(--gold-light); }
+  .card.featured h3 { color: var(--cream); }
+  .card.featured .card-meta { border-color: rgba(255,255,255,0.1); }
+  .card.featured .card-duration { color: rgba(255,255,255,0.55); }
+  .card.featured .card-price { color: var(--cream); }
+  .card.featured .card-price small { color: rgba(255,255,255,0.45); }
+  .card.featured .card-desc { color: rgba(255,255,255,0.65); }
+
+  .card.featured .btn-card {
+    background: var(--gold);
+    color: var(--white);
+    border-color: var(--gold);
+  }
+
+  .card.featured .btn-card:hover { background: var(--gold-light); border-color: var(--gold-light); }
+
+  .featured-badge {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: var(--gold);
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+  }
+
+  /* ── BOOKING WIDGET SECTION ── */
+  .booking {
+    padding: 7rem 2rem;
+    background: var(--sage-pale);
+    text-align: center;
+  }
+
+  .booking h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    font-weight: 300;
+    color: var(--anthracite);
+    margin-bottom: 1rem;
+  }
+
+  .booking h2 em { font-style: italic; color: var(--sage); }
+
+  .booking > p {
+    font-size: 0.9rem;
+    color: var(--anthracite-mid);
+    max-width: 480px;
+    margin: 0 auto 3rem;
+  }
+
+  /* ╔═══════════════════════════════════════════════════╗
+     ║       ZONA WIDGET PRENOTAZIONE / PAGAMENTO        ║
+     ║                                                   ║
+     ║  👉 ISTRUZIONI PER L'INTEGRAZIONE:               ║
+     ║                                                   ║
+     ║  OPZIONE A — CALENDLY (gratuito/base):           ║
+     ║  1. Vai su calendly.com e crea un account        ║
+     ║  2. Crea il tuo link di prenotazione             ║
+     ║  3. Vai su "Integrazione > Embedding"            ║
+     ║  4. Copia l'iframe qui sotto al posto del        ║
+     ║     placeholder:                                  ║
+     ║                                                   ║
+     ║  <div class="calendly-inline-widget"            ║
+     ║    data-url="https://calendly.com/TUO-LINK"     ║
+     ║    style="min-width:320px;height:630px;">        ║
+     ║  </div>                                           ║
+     ║  <script src="https://assets.calendly.com/..."> ║
+     ║  </script>                                        ║
+     ║                                                   ║
+     ║  OPZIONE B — STRIPE PAYMENT LINKS:               ║
+     ║  1. Crea un account Stripe (stripe.com)          ║
+     ║  2. Dashboard > Payment Links > Crea link        ║
+     ║  3. Aggiungi 5 prodotti (uno per trattamento)    ║
+     ║  4. Collega ogni "Seleziona e Paga" al link      ║
+     ║     Stripe corrispondente                         ║
+     ║                                                   ║
+     ║  OPZIONE C — ACUITY SCHEDULING (completo):       ║
+     ║  Permette pagamento + calendario + reminder       ║
+     ║  Integra lo script da acuityscheduling.com       ║
+     ╚═══════════════════════════════════════════════════╝ */
+
+  .booking-placeholder {
+    max-width: 700px;
+    margin: 0 auto;
+    border: 1px dashed rgba(138,158,140,0.4);
+    background: rgba(255,255,255,0.5);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .booking-placeholder .icon {
+    width: 48px;
+    height: 48px;
+    color: var(--sage);
+    margin: 0 auto 1.5rem;
+  }
+
+  .booking-placeholder h3 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--anthracite);
+    margin-bottom: 0.5rem;
+  }
+
+  .booking-placeholder p {
+    font-size: 0.82rem;
+    color: var(--anthracite-mid);
+    max-width: 380px;
+    margin: 0 auto 2rem;
+    line-height: 1.9;
+  }
+
+  .booking-options {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .booking-pill {
+    background: var(--white);
+    border: 1px solid rgba(138,158,140,0.3);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    padding: 0.5rem 1.2rem;
+    font-family: var(--sans);
+    text-transform: uppercase;
+  }
+
+  /* ── EXPERIENCE STRIP ── */
+  .experience {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 500px;
+  }
+
+  /*
+    SECONDA IMMAGINE — Da sostituire:
+    Immagine ideale: interno del salone, dettaglio prodotti,
+    mani durante un massaggio, oppure vista del lavabo spa.
+  */
+  .experience-img {
+    background:
+      linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)),
+      url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=85') center/cover no-repeat;
+    /* ↑ Sostituisci con: url('foto-interno-salone.jpg') */
+  }
+
+  .experience-content {
+    background: var(--anthracite);
+    padding: 5rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .experience-content .section-label { color: var(--gold); }
+
+  .experience-content h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+  }
+
+  .experience-content h2 em { font-style: italic; color: var(--gold-light); }
+
+  .experience-content p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.95;
+    margin-bottom: 2.5rem;
+  }
+
+  .experience-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .experience-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .experience-list li::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--anthracite);
+    color: rgba(255,255,255,0.5);
+    padding: 4rem 2rem 2.5rem;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 3rem;
+    max-width: 1000px;
+    margin: 0 auto 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+    display: block;
+    text-decoration: none;
+  }
+
+  .footer-logo-sub {
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-tagline {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.7;
+  }
+
+  .footer-col h4 {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul { list-style: none; }
+
+  .footer-col ul li {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+  }
+
+  .footer-col ul li a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul li a:hover { color: var(--gold-light); }
+
+  .footer-bottom {
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-divider {
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 2rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.5; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { display: none; }
+    nav.open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--cream);
+      z-index: 99;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 2rem;
+    }
+    nav.open a { font-size: 1rem; letter-spacing: 0.15em; }
+    nav.open .nav-cta { padding: 0.8rem 2.5rem; font-size: 0.8rem; }
+    .hamburger { display: flex; z-index: 101; }
+
+    .hero h1 { font-size: clamp(2.5rem, 10vw, 3.5rem); }
+
+    .pillars {
+      grid-template-columns: 1fr;
+      border: none;
+    }
+    .pillar {
+      border-right: none;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .pillar:last-child { border-bottom: none; }
+
+    .cards-grid { grid-template-columns: 1fr; }
+
+    .experience { grid-template-columns: 1fr; }
+    .experience-img { min-height: 280px; }
+    .experience-content { padding: 3.5rem 2rem; }
+
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header id="main-header">
+  <a href="#" class="logo">
+    Ritual HairSpa
+    <span>Luxury Wellness</span>
+  </a>
+  <nav id="main-nav">
+    <a href="#trattamenti">Trattamenti</a>
+    <a href="#esperienza">L'Esperienza</a>
+    <a href="#contatti">Contatti</a>
+    <a href="#prenota" class="nav-cta">Prenota</a>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Lusso · Relax · Bellezza</p>
+    <h1>Il Tuo Rituale<br><em>di Benessere</em></h1>
+    <p class="hero-sub">Un'esperienza sensoriale unica per capelli, corpo e anima</p>
+    <p class="hero-desc">
+      Lasciati avvolgere da fragranze esclusive, tecniche ancestrali e cure d'eccellenza. 
+      Ogni trattamento è un viaggio verso la tua versione più luminosa.
+    </p>
+    <a href="#trattamenti" class="btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+      Scopri i Rituali
+    </a>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <span>Scorri</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── PHILOSOPHY ── -->
+<section class="philosophy">
+  <span class="section-label reveal">La Nostra Filosofia</span>
+  <h2 class="reveal">Ogni visita è un <em>rituale</em>,<br>non solo un trattamento</h2>
+  <p class="reveal">
+    Crediamo che prendersi cura di sé sia un atto profondo di rispetto verso sé stessi. 
+    Qui il tempo si dilata, il rumore del mondo svanisce e i tuoi capelli rinascono.
+  </p>
+
+  <div class="pillars">
+    <div class="pillar reveal">
+      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+      <h3>Rituali su Misura</h3>
+      <p>Ogni trattamento viene personalizzato in base alle tue esigenze, per un risultato unico e duraturo.</p>
+    </div>
+    <div class="pillar reveal">
+      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      <h3>Ingredienti d'Eccellenza</h3>
+      <p>Solo formulazioni professionali selezionate tra le migliori case cosmetiche al mondo.</p>
+    </div>
+    <div class="pillar reveal">
+      <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9,22 9,12 15,12 15,22"/>
+      </svg>
+      <h3>Un Santuario di Pace</h3>
+      <p>Ambienti progettati per farti dimenticare il quotidiano dal primo istante in cui varchi la soglia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── TREATMENTS ── -->
+<section class="treatments" id="trattamenti">
+  <div class="treatments-header">
+    <span class="section-label reveal">I Nostri Rituali</span>
+    <h2 class="reveal">Scegli la tua <em>esperienza</em></h2>
+    <p class="reveal">Cinque percorsi di benessere, ognuno pensato per regalarti un momento di pura rinascita.</p>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- Card 1 -->
+    <div class="card reveal">
+      <div class="card-accent"></div>
+      <div class="card-body">
+        <p class="card-number">01 / Rituale</p>
+        <h3>Ritual HairSpa</h3>
+        <div class="card-meta">
+          <span class="card-duration">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            40 minuti
+          </span>
+          <span class="card-price">39€</span>
+        </div>
+        <p class="card-desc">
+          Il cuore del nostro metodo. Un'immersione profonda nella cura del capello: shampoo rituale, maschera nutriente su misura e massaggio cuoio capelluto che dissolve ogni tensione accumulata.
+        </p>
+        <a href="#prenota" class="btn-card">Seleziona e Paga</a>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card reveal">
+      <div class="card-accent"></div>
+      <div class="card-body">
+        <p class="card-number">02 / Rituale</p>
+        <h3>Ritual Hair &amp; FaceSpa</h3>
+        <div class="card-meta">
+          <span class="card-duration">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            50 minuti
+          </span>
+          <span class="card-price">59€</span>
+        </div>
+        <p class="card-desc">
+          Bellezza che va oltre i capelli. Al rituale HairSpa si aggiunge un trattamento viso rigenerante: pulizia, siero illuminante e massaggio facciale per una luminosità ritrovata.
+        </p>
+        <a href="#prenota" class="btn-card">Seleziona e Paga</a>
+      </div>
+    </div>
+
+    <!-- Card 3 — Featured -->
+    <div class="card featured reveal">
+      <div class="card-accent"></div>
+      <div class="card-body">
+        <p class="card-number">03 / Rituale</p>
+        <h3>Ritual Hair &amp; BodySpa</h3>
+        <div class="card-meta">
+          <span class="card-duration">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            60 minuti
+          </span>
+          <span class="card-price">89€</span>
+        </div>
+        <p class="card-desc">
+          L'esperienza totale. Un'ora dedicata interamente a te: dal capello al corpo, con massaggio rilassante, avvolgimento aromatico e cura dei capelli con oli preziosi selezionati.
+        </p>
+        <a href="#prenota" class="btn-card">Seleziona e Paga</a>
+      </div>
+      <div class="featured-badge">Il più scelto</div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card reveal">
+      <div class="card-accent"></div>
+      <div class="card-body">
+        <p class="card-number">04 / Rituale</p>
+        <h3>Ritual Hair &amp; BodySpa a 4 Mani</h3>
+        <div class="card-meta">
+          <span class="card-duration">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            60 minuti
+          </span>
+          <span class="card-price">129€</span>
+        </div>
+        <p class="card-desc">
+          Il massimo del lusso. Due terapeute al tuo servizio simultaneamente per un'esperienza di benessere senza precedenti. Una sincronia perfetta di mani esperte che lavorano in armonia.
+        </p>
+        <a href="#prenota" class="btn-card">Seleziona e Paga</a>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="card reveal">
+      <div class="card-accent"></div>
+      <div class="card-body">
+        <p class="card-number">05 / Rituale</p>
+        <h3>Ritual Hair &amp; Spa di Coppia</h3>
+        <div class="card-meta">
+          <span class="card-duration">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            40 minuti
+          </span>
+          <span class="card-price">79€<small>/ a persona</small></span>
+        </div>
+        <p class="card-desc">
+          Condividi la magia del benessere con chi ami. Un rituale vissuto fianco a fianco, nella stessa stanza, per un'esperienza intima e indimenticabile da regalare o regalarsi.
+        </p>
+        <a href="#prenota" class="btn-card">Seleziona e Paga</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── BOOKING WIDGET ── -->
+<section class="booking" id="prenota">
+  <span class="section-label reveal">Prenota il Tuo Rituale</span>
+  <h2 class="reveal">Riserva il tuo momento<br>di <em>pura bellezza</em></h2>
+  <p class="reveal">Scegli la data e l'orario che preferisci. Il pagamento online garantisce il tuo posto.</p>
+
+  <div class="booking-placeholder reveal">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+      <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+    </svg>
+    <h3>Calendario di Prenotazione</h3>
+    <p>
+      Inserisci qui il tuo widget di prenotazione (Calendly, Acuity o Stripe Payment Link). 
+      Vedi il commento nel codice HTML per le istruzioni passo-passo.
+    </p>
+    <div class="booking-options">
+      <span class="booking-pill">Calendly</span>
+      <span class="booking-pill">Acuity Scheduling</span>
+      <span class="booking-pill">Stripe Payments</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE STRIP ── -->
+<section class="experience" id="esperienza">
+  <div class="experience-img" aria-hidden="true"></div>
+  <div class="experience-content">
+    <span class="section-label reveal">L'Esperienza</span>
+    <h2 class="reveal">Un mondo a parte,<br>creato <em>solo per te</em></h2>
+    <p class="reveal">
+      Non stiamo semplicemente curando i tuoi capelli. Stiamo costruendo un momento 
+      che porterai con te per settimane: nei capelli lucenti, nel corpo disteso, 
+      nella mente finalmente silenziosa.
+    </p>
+    <ul class="experience-list reveal">
+      <li>Prodotti professionali di alta gamma</li>
+      <li>Terapeute certificate con anni di esperienza</li>
+      <li>Ambienti arredati per il massimo relax</li>
+      <li>Profumi e oli essenziali selezionati</li>
+      <li>Musica e temperatura ambientale controllata</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer id="contatti">
+  <div class="footer-divider"></div>
+  <div class="footer-top">
+    <div>
+      <span class="footer-logo">Ritual HairSpa</span>
+      <span class="footer-logo-sub">Luxury Wellness</span>
+      <p class="footer-tagline">"Perché ogni capello racconta<br>la storia di chi sei."</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Dove Siamo</h4>
+      <ul>
+        <li>Via della Bellezza, 12</li>
+        <li>80121 Napoli (NA)</li>
+        <li><a href="tel:+39081000000">+39 081 000 0000</a></li>
+        <li><a href="mailto:info@ritualhairspa.it">info@ritualhairspa.it</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Orari</h4>
+      <ul>
+        <li>Lun – Ven: 9:00 – 19:30</li>
+        <li>Sabato: 9:00 – 17:00</li>
+        <li>Domenica: Chiuso</li>
+        <li style="margin-top:0.8rem; color: rgba(255,255,255,0.25); font-size:0.75rem;">Su appuntamento</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Ritual HairSpa — P.IVA 00000000000 — <a href="#" style="color:rgba(255,255,255,0.2); text-decoration:none;">Privacy Policy</a></p>
+  </div>
+</footer>
+
+<script>
+  // Header scroll effect
+  const header = document.getElementById('main-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const nav = document.getElementById('main-nav');
+  hamburger.addEventListener('click', () => {
+    nav.classList.toggle('open');
+  });
+  nav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => nav.classList.remove('open'));
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
