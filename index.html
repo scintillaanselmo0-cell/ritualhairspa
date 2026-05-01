@@ -31,7 +31,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--cream);font-weight
 /* HEADER */
 header{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,13,0.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:box-shadow 0.3s;}
 header.scrolled{box-shadow:0 2px 30px rgba(0,0,0,0.5);}
-.logo-img{height:48px;width:auto;display:block;}
+.logo-img{height:70px;width:auto;display:block;}
 nav{display:flex;align-items:center;gap:2rem;}
 nav a{font-family:var(--sans);font-size:0.7rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color 0.2s;}
 nav a:hover{color:var(--gold);}
@@ -49,11 +49,11 @@ nav a:hover{color:var(--gold);}
 .hero-slides{position:absolute;inset:0;z-index:0;}
 .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out;}
 .slide.active{opacity:1;}
-.slide:nth-child(1){background-image:url('hero1.png');}
-.slide:nth-child(2){background-image:url('hero2.png');}
-.slide:nth-child(3){background-image:url('hero3.png');}
-  .slide:nth-child(4){background-image:url('https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=1600&q=85');}
-  .slide:nth-child(5){background-image:url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1600&q=85');}
+  .slide:nth-child(1){background-image:url('slide1.jpg');background-position:center;}
+  .slide:nth-child(2){background-image:url('slide2.jpg');background-position:center;}
+  .slide:nth-child(3){background-image:url('slide3.jpg');background-position:center;}
+  .slide:nth-child(4){background-image:url('slide4.jpg');background-position:center;}
+  .slide:nth-child(5){background-image:url('slide5.jpg');background-position:center;}
 
 .hero-content{position:relative;z-index:2;text-align:center;padding:8rem 2rem 5rem;max-width:800px;}
 .hero-eyebrow{font-family:var(--sans);font-size:0.62rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.9s 0.3s ease forwards;}
