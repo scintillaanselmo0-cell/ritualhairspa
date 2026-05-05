@@ -45,7 +45,7 @@ nav a:hover{color:var(--gold);}
 .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.3) 45%,rgba(0,0,0,0.72) 100%);z-index:1;}
 
-/* HERO SLIDESHOW (fallback se no video) */
+/* HERO SLIDESHOW */
 .hero-slides{position:absolute;inset:0;z-index:0;}
 .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out;}
 .slide.active{opacity:1;}
@@ -122,6 +122,19 @@ nav a:hover{color:var(--gold);}
 .card.featured .btn-card{background:var(--gold);color:#0D0D0D;border-color:var(--gold);}
 .card.featured .btn-card:hover{background:var(--gold-light);}
 .featured-badge{position:absolute;top:1rem;right:1rem;background:var(--gold);color:#0D0D0D;font-size:0.56rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.28rem 0.7rem;}
+
+/* GENDER TOGGLE */
+.gender-toggle{display:flex;align-items:center;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:2px;overflow:hidden;margin-bottom:1rem;width:100%;}
+.gender-toggle button{flex:1;background:transparent;border:none;color:var(--mid);font-family:var(--sans);font-size:0.62rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;padding:0.5rem 0.8rem;cursor:pointer;transition:background 0.2s,color 0.2s;position:relative;}
+.gender-toggle button.active{background:var(--gold);color:#0D0D0D;}
+.gender-toggle button:not(.active):hover{color:var(--gold);}
+.gender-toggle .toggle-divider{width:1px;height:28px;background:var(--border);flex-shrink:0;}
+.card.featured .gender-toggle{border-color:rgba(184,152,106,0.3);}
+.card.featured .gender-toggle button.active{background:var(--gold);}
+
+/* price transition */
+.card-price-wrap{transition:opacity 0.2s ease;}
+.card-price-wrap.fading{opacity:0;}
 
 /* EXTRA SERVICES */
 .extras{padding:6rem 2rem;background:var(--bg2);}
@@ -232,24 +245,6 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
 
 <!-- HERO -->
 <section class="hero" id="home">
-
-  <!--
-  ╔═══════════════════════════════════════════════════╗
-  ║           VIDEO AUTOPLAY — ISTRUZIONI             ║
-  ║                                                   ║
-  ║  1. Carica il tuo video su GitHub con il nome:   ║
-  ║     "hero-video.mp4"                              ║
-  ║  2. Rimuovi il commento dal tag <video> qui sotto ║
-  ║  3. Il video partirà automaticamente, senza       ║
-  ║     audio, in loop, su tutti i dispositivi        ║
-  ╚═══════════════════════════════════════════════════╝
-
-  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="hero1.png">
-    <source src="hero-video.mp4" type="video/mp4">
-  </video>
-  -->
-
-  <!-- Slideshow (attivo finché non carichi il video) -->
   <div class="hero-slides" aria-hidden="true">
     <div class="slide active"></div>
     <div class="slide"></div>
@@ -324,15 +319,23 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
       <div class="card-body">
         <p class="card-number">01 / Rituale</p>
         <h3>Ritual HairSpa</h3>
+        <div class="gender-toggle">
+          <button class="active" onclick="switchGender(this, 'uomo')">♂ Uomo</button>
+          <div class="toggle-divider"></div>
+          <button onclick="switchGender(this, 'donna')">♀ Donna</button>
+        </div>
         <div class="card-meta">
           <span class="card-duration">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-            40 minuti
+            <span class="duration-label">40 minuti</span>
           </span>
-          <span class="card-price">39€ <span class="card-old">69€</span></span>
+          <span class="card-price-wrap">
+            <span class="card-price price-label">39€</span>
+            <span class="card-old old-label">69€</span>
+          </span>
         </div>
-        <p class="card-desc">Un momento di benessere per i tuoi capelli… e per te. Shampoo rituale, maschera nutriente su misura e massaggio cuoio capelluto che dissolve ogni tensione.</p>
-        <a href="https://calendly.com/scintillaanselmo0/ritual-hairspa" target="_blank" class="btn-card">Seleziona e Prenota</a>
+        <p class="card-desc desc-label">Un momento di benessere per i tuoi capelli… e per te. Shampoo rituale, maschera nutriente su misura e massaggio cuoio capelluto che dissolve ogni tensione.</p>
+        <a href="https://calendly.com/scintillaanselmo0/ritual-hairspa" target="_blank" class="btn-card book-link">Seleziona e Prenota</a>
       </div>
     </div>
 
@@ -342,15 +345,23 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
       <div class="card-body">
         <p class="card-number">02 / Rituale</p>
         <h3>Ritual Hair &amp; FaceSpa</h3>
+        <div class="gender-toggle">
+          <button class="active" onclick="switchGender(this, 'uomo')">♂ Uomo</button>
+          <div class="toggle-divider"></div>
+          <button onclick="switchGender(this, 'donna')">♀ Donna</button>
+        </div>
         <div class="card-meta">
           <span class="card-duration">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-            50 minuti
+            <span class="duration-label">50 minuti</span>
           </span>
-          <span class="card-price">59€ <span class="card-old">89€</span></span>
+          <span class="card-price-wrap">
+            <span class="card-price price-label">59€</span>
+            <span class="card-old old-label">89€</span>
+          </span>
         </div>
-        <p class="card-desc">Capelli rigenerati e viso luminoso. Al rituale HairSpa si aggiunge un trattamento viso rigenerante per una bellezza che va oltre i capelli.</p>
-        <a href="https://calendly.com/scintillaanselmo0/ritual-hairspa-clone" target="_blank" class="btn-card">Seleziona e Prenota</a>
+        <p class="card-desc desc-label">Capelli rigenerati e viso luminoso. Al rituale HairSpa si aggiunge un trattamento viso rigenerante per una bellezza che va oltre i capelli.</p>
+        <a href="https://calendly.com/scintillaanselmo0/ritual-hairspa-clone" target="_blank" class="btn-card book-link">Seleziona e Prenota</a>
       </div>
     </div>
 
@@ -360,15 +371,23 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
       <div class="card-body">
         <p class="card-number">03 / Rituale</p>
         <h3>Ritual Hair &amp; BodySpa</h3>
+        <div class="gender-toggle">
+          <button class="active" onclick="switchGender(this, 'uomo')">♂ Uomo</button>
+          <div class="toggle-divider"></div>
+          <button onclick="switchGender(this, 'donna')">♀ Donna</button>
+        </div>
         <div class="card-meta">
           <span class="card-duration">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-            60 minuti
+            <span class="duration-label">60 minuti</span>
           </span>
-          <span class="card-price">89€ <span class="card-old">129€</span></span>
+          <span class="card-price-wrap">
+            <span class="card-price price-label">89€</span>
+            <span class="card-old old-label">129€</span>
+          </span>
         </div>
-        <p class="card-desc">Capelli rigenerati, corpo rilassato e mente leggera. Include massaggio corpo da 30 min. L'esperienza totale dedicata interamente a te.</p>
-        <a href="https://calendly.com/scintillaanselmo0/ritual-hair-facespa-clone" target="_blank" class="btn-card">Seleziona e Prenota</a>
+        <p class="card-desc desc-label">Capelli rigenerati, corpo rilassato e mente leggera. Include massaggio corpo da 30 min. L'esperienza totale dedicata interamente a te.</p>
+        <a href="https://calendly.com/scintillaanselmo0/ritual-hair-facespa-clone" target="_blank" class="btn-card book-link">Seleziona e Prenota</a>
       </div>
       <div class="featured-badge">Il più scelto</div>
     </div>
@@ -379,15 +398,23 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
       <div class="card-body">
         <p class="card-number">04 / Rituale</p>
         <h3>Ritual Hair &amp; BodySpa a 4 Mani</h3>
+        <div class="gender-toggle">
+          <button class="active" onclick="switchGender(this, 'uomo')">♂ Uomo</button>
+          <div class="toggle-divider"></div>
+          <button onclick="switchGender(this, 'donna')">♀ Donna</button>
+        </div>
         <div class="card-meta">
           <span class="card-duration">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-            60 minuti
+            <span class="duration-label">60 minuti</span>
           </span>
-          <span class="card-price">129€ <span class="card-old">159€</span></span>
+          <span class="card-price-wrap">
+            <span class="card-price price-label">129€</span>
+            <span class="card-old old-label">159€</span>
+          </span>
         </div>
-        <p class="card-desc">Un'esperienza di puro relax: massaggio a 4 mani per corpo e capelli, dove ogni tocco si trasforma in benessere totale. Due terapeute in perfetta sincronia.</p>
-        <a href="https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-clone" target="_blank" class="btn-card">Seleziona e Prenota</a>
+        <p class="card-desc desc-label">Un'esperienza di puro relax: massaggio a 4 mani per corpo e capelli, dove ogni tocco si trasforma in benessere totale. Due terapeute in perfetta sincronia.</p>
+        <a href="https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-clone" target="_blank" class="btn-card book-link">Seleziona e Prenota</a>
       </div>
     </div>
 
@@ -397,15 +424,23 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
       <div class="card-body">
         <p class="card-number">05 / Rituale</p>
         <h3>Ritual Hair &amp; Spa di Coppia</h3>
+        <div class="gender-toggle">
+          <button class="active" onclick="switchGender(this, 'uomo')">♂ Uomo</button>
+          <div class="toggle-divider"></div>
+          <button onclick="switchGender(this, 'donna')">♀ Donna</button>
+        </div>
         <div class="card-meta">
           <span class="card-duration">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-            40 minuti
+            <span class="duration-label">40 minuti</span>
           </span>
-          <span class="card-price">79€ <small>/ a persona</small></span>
+          <span class="card-price-wrap">
+            <span class="card-price price-label">79€</span>
+            <small class="per-person"> / a persona</small>
+          </span>
         </div>
-        <p class="card-desc">Condividi la magia del benessere con chi ami. Un rituale vissuto fianco a fianco, nella stessa stanza, per un'esperienza intima e indimenticabile.</p>
-        <a href="https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-clone" target="_blank" class="btn-card">Seleziona e Prenota</a>
+        <p class="card-desc desc-label">Condividi la magia del benessere con chi ami. Un rituale vissuto fianco a fianco, nella stessa stanza, per un'esperienza intima e indimenticabile.</p>
+        <a href="https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-clone" target="_blank" class="btn-card book-link">Seleziona e Prenota</a>
       </div>
     </div>
 
@@ -421,59 +456,35 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
   </div>
   <div class="extras-grid">
     <div class="extra-item reveal">
-      <div>
-        <div class="extra-name">Colata di cioccolato capelli</div>
-        <div class="extra-sub">Consigliata per capelli scuri</div>
-      </div>
+      <div><div class="extra-name">Colata di cioccolato capelli</div><div class="extra-sub">Consigliata per capelli scuri</div></div>
       <div class="extra-price">10€</div>
     </div>
     <div class="extra-item reveal">
-      <div>
-        <div class="extra-name">Colata di crema alla frutta</div>
-        <div class="extra-sub">Per capelli biondi e scuri</div>
-      </div>
+      <div><div class="extra-name">Colata di crema alla frutta</div><div class="extra-sub">Per capelli biondi e scuri</div></div>
       <div class="extra-price">10€</div>
     </div>
     <div class="extra-item reveal">
-      <div>
-        <div class="extra-name">Scrub viso</div>
-        <div class="extra-sub">Esfoliazione delicata</div>
-      </div>
+      <div><div class="extra-name">Scrub viso</div><div class="extra-sub">Esfoliazione delicata</div></div>
       <div class="extra-price">5€</div>
     </div>
     <div class="extra-item reveal">
-      <div>
-        <div class="extra-name">Scrub cute</div>
-        <div class="extra-sub">Cuoio capelluto purificato</div>
-      </div>
+      <div><div class="extra-name">Scrub cute</div><div class="extra-sub">Cuoio capelluto purificato</div></div>
       <div class="extra-price">5€</div>
     </div>
     <div class="extra-item reveal">
-      <div>
-        <div class="extra-name">Maschera viso rigenerante</div>
-        <div class="extra-sub">Viso più luminoso</div>
-      </div>
+      <div><div class="extra-name">Maschera viso rigenerante</div><div class="extra-sub">Viso più luminoso</div></div>
       <div class="extra-price">5€</div>
     </div>
     <div class="extra-item reveal">
-      <div>
-        <div class="extra-name">Maschera acido ialuronico</div>
-        <div class="extra-sub">Idratazione profonda</div>
-      </div>
+      <div><div class="extra-name">Maschera acido ialuronico</div><div class="extra-sub">Idratazione profonda</div></div>
       <div class="extra-price">10€</div>
     </div>
     <div class="extra-item reveal">
-      <div>
-        <div class="extra-name">Maschera viso antirughe</div>
-        <div class="extra-sub">Viso più giovane e luminoso</div>
-      </div>
+      <div><div class="extra-name">Maschera viso antirughe</div><div class="extra-sub">Viso più giovane e luminoso</div></div>
       <div class="extra-price">10€</div>
     </div>
     <div class="extra-item reveal">
-      <div>
-        <div class="extra-name">Pulizia viso con premitura</div>
-        <div class="extra-sub">Trattamento professionale</div>
-      </div>
+      <div><div class="extra-name">Pulizia viso con premitura</div><div class="extra-sub">Trattamento professionale</div></div>
       <div class="extra-price">25€</div>
     </div>
   </div>
@@ -593,30 +604,146 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
 </footer>
 
 <script>
-  // Slideshow
-  const slides = document.querySelectorAll('.slide');
-  const dots = document.querySelectorAll('.dot');
-  let current = 0, timer;
-  function goTo(i){slides[current].classList.remove('active');dots[current].classList.remove('active');current=i;slides[current].classList.add('active');dots[current].classList.add('active');}
-  function next(){goTo((current+1)%slides.length);}
-  function startTimer(){timer=setInterval(next,5000);}
-  dots.forEach((d,i)=>{d.addEventListener('click',()=>{clearInterval(timer);goTo(i);startTimer();});});
-  startTimer();
+// ============================================================
+//  DATI SERVIZI — modifica qui prezzi e link Calendly
+// ============================================================
+const servizi = [
+  {
+    uomo: {
+      prezzo: '39€', vecchio: '69€', perPersona: false,
+      link: 'https://calendly.com/scintillaanselmo0/ritual-hairspa',
+      desc: 'Un momento di benessere per i tuoi capelli… e per te. Shampoo rituale, maschera nutriente su misura e massaggio cuoio capelluto che dissolve ogni tensione.',
+      durata: '40 minuti'
+    },
+    donna: {
+      prezzo: '49€', vecchio: '79€', perPersona: false,
+      link: 'INSERISCI_LINK_CALENDLY_DONNA_1',
+      desc: 'Un momento di benessere per i tuoi capelli… e per te. Shampoo rituale, maschera nutriente su misura, massaggio cuoio capelluto e piega finale per un look impeccabile.',
+      durata: '50 minuti'
+    }
+  },
+  {
+    uomo: {
+      prezzo: '59€', vecchio: '89€', perPersona: false,
+      link: 'https://calendly.com/scintillaanselmo0/ritual-hairspa-clone',
+      desc: 'Capelli rigenerati e viso luminoso. Al rituale HairSpa si aggiunge un trattamento viso rigenerante per una bellezza che va oltre i capelli.',
+      durata: '50 minuti'
+    },
+    donna: {
+      prezzo: '69€', vecchio: '99€', perPersona: false,
+      link: 'INSERISCI_LINK_CALENDLY_DONNA_2',
+      desc: 'Capelli rigenerati, viso luminoso e piega finale perfetta. Al rituale HairSpa si aggiunge un trattamento viso rigenerante e la piega per un risultato completo.',
+      durata: '60 minuti'
+    }
+  },
+  {
+    uomo: {
+      prezzo: '89€', vecchio: '129€', perPersona: false,
+      link: 'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-clone',
+      desc: 'Capelli rigenerati, corpo rilassato e mente leggera. Include massaggio corpo da 30 min. L\'esperienza totale dedicata interamente a te.',
+      durata: '60 minuti'
+    },
+    donna: {
+      prezzo: '99€', vecchio: '139€', perPersona: false,
+      link: 'INSERISCI_LINK_CALENDLY_DONNA_3',
+      desc: 'Capelli rigenerati, corpo rilassato, mente leggera e piega finale. Include massaggio corpo da 30 min e piega. L\'esperienza totale al femminile.',
+      durata: '70 minuti'
+    }
+  },
+  {
+    uomo: {
+      prezzo: '129€', vecchio: '159€', perPersona: false,
+      link: 'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-clone',
+      desc: 'Un\'esperienza di puro relax: massaggio a 4 mani per corpo e capelli, dove ogni tocco si trasforma in benessere totale. Due terapeute in perfetta sincronia.',
+      durata: '60 minuti'
+    },
+    donna: {
+      prezzo: '139€', vecchio: '169€', perPersona: false,
+      link: 'INSERISCI_LINK_CALENDLY_DONNA_4',
+      desc: 'Un\'esperienza di puro relax: massaggio a 4 mani per corpo e capelli con piega finale. Due terapeute in perfetta sincronia per un risultato da sogno.',
+      durata: '70 minuti'
+    }
+  },
+  {
+    uomo: {
+      prezzo: '79€', vecchio: null, perPersona: true,
+      link: 'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-clone',
+      desc: 'Condividi la magia del benessere con chi ami. Un rituale vissuto fianco a fianco, nella stessa stanza, per un\'esperienza intima e indimenticabile.',
+      durata: '40 minuti'
+    },
+    donna: {
+      prezzo: '89€', vecchio: null, perPersona: true,
+      link: 'INSERISCI_LINK_CALENDLY_DONNA_5',
+      desc: 'Condividi la magia del benessere con chi ami. Rituale vissuto fianco a fianco con piega finale inclusa, per un\'esperienza intima e indimenticabile.',
+      durata: '50 minuti'
+    }
+  }
+];
 
-  // Header scroll
-  const header=document.getElementById('main-header');
-  window.addEventListener('scroll',()=>{header.classList.toggle('scrolled',window.scrollY>40);});
+// ============================================================
+//  FUNZIONE TOGGLE GENERE
+// ============================================================
+function switchGender(btn, gender) {
+  const card = btn.closest('.card');
+  const cardBody = btn.closest('.card-body');
+  const cardIndex = [...document.querySelectorAll('.card')].indexOf(card);
+  const data = servizi[cardIndex][gender];
 
-  // Mobile menu
-  const hamburger=document.getElementById('hamburger');
-  const nav=document.getElementById('main-nav');
-  hamburger.addEventListener('click',()=>{nav.classList.toggle('open');});
-  nav.querySelectorAll('a').forEach(a=>{a.addEventListener('click',()=>nav.classList.remove('open'));});
+  // aggiorna bottoni toggle
+  card.querySelectorAll('.gender-toggle button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 
-  // Scroll reveal
-  const reveals=document.querySelectorAll('.reveal');
-  const observer=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*70);observer.unobserve(e.target);}});},{threshold:0.1});
-  reveals.forEach(el=>observer.observe(el));
+  // fade price
+  const priceWrap = cardBody.querySelector('.card-price-wrap');
+  priceWrap.classList.add('fading');
+
+  setTimeout(() => {
+    // aggiorna prezzo
+    cardBody.querySelector('.price-label').textContent = data.prezzo;
+
+    // aggiorna prezzo vecchio
+    const oldEl = cardBody.querySelector('.old-label');
+    if (oldEl) oldEl.textContent = data.vecchio || '';
+
+    // aggiorna durata
+    cardBody.querySelector('.duration-label').textContent = data.durata;
+
+    // aggiorna descrizione
+    cardBody.querySelector('.desc-label').textContent = data.desc;
+
+    // aggiorna link prenotazione
+    cardBody.querySelector('.book-link').href = data.link;
+
+    priceWrap.classList.remove('fading');
+  }, 200);
+}
+
+// ============================================================
+//  SLIDESHOW
+// ============================================================
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+let current = 0, timer;
+function goTo(i){slides[current].classList.remove('active');dots[current].classList.remove('active');current=i;slides[current].classList.add('active');dots[current].classList.add('active');}
+function next(){goTo((current+1)%slides.length);}
+function startTimer(){timer=setInterval(next,5000);}
+dots.forEach((d,i)=>{d.addEventListener('click',()=>{clearInterval(timer);goTo(i);startTimer();});});
+startTimer();
+
+// HEADER SCROLL
+const header=document.getElementById('main-header');
+window.addEventListener('scroll',()=>{header.classList.toggle('scrolled',window.scrollY>40);});
+
+// MOBILE MENU
+const hamburger=document.getElementById('hamburger');
+const nav=document.getElementById('main-nav');
+hamburger.addEventListener('click',()=>{nav.classList.toggle('open');});
+nav.querySelectorAll('a').forEach(a=>{a.addEventListener('click',()=>nav.classList.remove('open'));});
+
+// SCROLL REVEAL
+const reveals=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*70);observer.unobserve(e.target);}});},{threshold:0.1});
+reveals.forEach(el=>observer.observe(el));
 </script>
 </body>
 </html>
