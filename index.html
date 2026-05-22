@@ -328,16 +328,21 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
 /* BOOKING MODAL PAGEST */
 .pagest-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
 .pagest-overlay.open{display:flex;}
-.pagest-modal{position:relative;width:100%;max-width:680px;height:90vh;display:flex;flex-direction:column;background:#0D0D0D;border:1px solid var(--border);}
+.pagest-modal{position:relative;width:100%;max-width:520px;display:flex;flex-direction:column;background:#0D0D0D;border:1px solid var(--border);}
 .pagest-modal-header{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.2rem;border-bottom:1px solid var(--border);flex-shrink:0;gap:1rem;}
 .pagest-modal-service{display:flex;flex-direction:column;}
 .pagest-modal-label{font-family:var(--sans);font-size:0.55rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem;}
-.pagest-modal-name{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--cream);line-height:1.2;}
+.pagest-modal-name{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--cream);line-height:1.2;}
 .pagest-modal-close{background:none;border:1px solid var(--border);color:var(--mid);width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;transition:color 0.2s,border-color 0.2s;}
 .pagest-modal-close:hover{color:var(--gold);border-color:var(--gold);}
-.pagest-modal-hint{background:rgba(184,152,106,0.07);border-bottom:1px solid var(--border);padding:0.6rem 1.2rem;font-size:0.72rem;color:var(--mid);flex-shrink:0;line-height:1.5;}
-.pagest-modal-hint strong{color:var(--gold-light);font-weight:400;}
-.pagest-modal iframe{flex:1;border:none;width:100%;background:#fff;}
+.pagest-modal-body{padding:1.8rem 1.5rem;text-align:center;}
+.pagest-modal-body p{font-size:0.82rem;color:var(--mid);line-height:1.9;margin-bottom:0.4rem;}
+.pagest-modal-body p strong{color:var(--gold-light);font-weight:400;}
+.pagest-modal-steps{display:flex;flex-direction:column;gap:0.55rem;margin:1.2rem 0 1.6rem;text-align:left;background:rgba(184,152,106,0.05);border:1px solid var(--border);padding:1rem 1.2rem;}
+.pagest-step{display:flex;align-items:flex-start;gap:0.75rem;font-size:0.78rem;color:var(--mid);line-height:1.5;}
+.pagest-step-num{font-family:var(--sans);font-size:0.58rem;color:var(--gold);background:rgba(184,152,106,0.12);border:1px solid rgba(184,152,106,0.25);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.pagest-modal-cta{display:flex;align-items:center;justify-content:center;gap:0.6rem;background:var(--gold);color:#0D0D0D;font-family:var(--sans);font-size:0.68rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;padding:1rem 2rem;border:none;cursor:pointer;width:100%;transition:background 0.2s;text-decoration:none;}
+.pagest-modal-cta:hover{background:var(--gold-light);}
 
 /* MOBILE */
 @media(max-width:768px){
@@ -760,15 +765,27 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
       </div>
       <button class="pagest-modal-close" onclick="document.getElementById('pagest-overlay').classList.remove('open');document.body.style.overflow='';" aria-label="Chiudi">✕</button>
     </div>
-    <div class="pagest-modal-hint">
-      ✦ Cerca <strong id="pagest-hint-name">il tuo servizio</strong> nel calendario e seleziona data e ora
+    <div class="pagest-modal-body">
+      <p>Verrai reindirizzato al nostro sistema di prenotazione.<br>Cerca il servizio <strong id="pagest-hint-name">—</strong> e scegli data e ora.</p>
+      <div class="pagest-modal-steps">
+        <div class="pagest-step">
+          <span class="pagest-step-num">1</span>
+          <span>Si apre il calendario di prenotazione in una nuova scheda</span>
+        </div>
+        <div class="pagest-step">
+          <span class="pagest-step-num">2</span>
+          <span>Clicca su <strong style="color:var(--gold-light);font-weight:400">Prenotazione</strong> nel menu e seleziona il servizio</span>
+        </div>
+        <div class="pagest-step">
+          <span class="pagest-step-num">3</span>
+          <span>Scegli data e orario disponibili e conferma</span>
+        </div>
+      </div>
+      <a id="pagest-cta-link" href="#" target="_blank" class="pagest-modal-cta" onclick="document.getElementById('pagest-overlay').classList.remove('open');document.body.style.overflow='';">
+        Vai al Calendario
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
     </div>
-    <iframe
-      id="pagest-iframe"
-      src=""
-      allow="payment"
-      title="Prenota il tuo appuntamento">
-    </iframe>
   </div>
 </div>
 
@@ -948,10 +965,7 @@ function apriModal(btn) {
   const serviceName = btn.dataset.serviceName || btn.closest('.card-body').querySelector('h3').textContent;
   document.getElementById('pagest-service-name').textContent = serviceName;
   document.getElementById('pagest-hint-name').textContent = serviceName.split('·')[0].trim();
-  const iframe = document.getElementById('pagest-iframe');
-  if (!iframe.src || iframe.src === 'about:blank') {
-    iframe.src = PAGEST_URL;
-  }
+  document.getElementById('pagest-cta-link').href = PAGEST_URL;
   document.getElementById('pagest-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
