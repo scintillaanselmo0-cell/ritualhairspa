@@ -325,6 +325,20 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
 .whatsapp-pulse{position:absolute;width:56px;height:56px;border-radius:50%;background:rgba(37,211,102,0.4);animation:waPulse 2s ease-out infinite;}
 @keyframes waPulse{0%{transform:scale(1);opacity:0.8;}100%{transform:scale(1.7);opacity:0;}}
 
+/* BOOKING MODAL PAGEST */
+.pagest-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
+.pagest-overlay.open{display:flex;}
+.pagest-modal{position:relative;width:100%;max-width:680px;height:90vh;display:flex;flex-direction:column;background:#0D0D0D;border:1px solid var(--border);}
+.pagest-modal-header{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.2rem;border-bottom:1px solid var(--border);flex-shrink:0;gap:1rem;}
+.pagest-modal-service{display:flex;flex-direction:column;}
+.pagest-modal-label{font-family:var(--sans);font-size:0.55rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem;}
+.pagest-modal-name{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--cream);line-height:1.2;}
+.pagest-modal-close{background:none;border:1px solid var(--border);color:var(--mid);width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;transition:color 0.2s,border-color 0.2s;}
+.pagest-modal-close:hover{color:var(--gold);border-color:var(--gold);}
+.pagest-modal-hint{background:rgba(184,152,106,0.07);border-bottom:1px solid var(--border);padding:0.6rem 1.2rem;font-size:0.72rem;color:var(--mid);flex-shrink:0;line-height:1.5;}
+.pagest-modal-hint strong{color:var(--gold-light);font-weight:400;}
+.pagest-modal iframe{flex:1;border:none;width:100%;background:#fff;}
+
 /* MOBILE */
 @media(max-width:768px){
   nav{display:none;}
@@ -736,6 +750,28 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
   </div>
 </footer>
 
+<!-- PAGEST BOOKING MODAL -->
+<div class="pagest-overlay" id="pagest-overlay" onclick="chiudiModal(event)">
+  <div class="pagest-modal">
+    <div class="pagest-modal-header">
+      <div class="pagest-modal-service">
+        <span class="pagest-modal-label">Servizio selezionato</span>
+        <span class="pagest-modal-name" id="pagest-service-name">—</span>
+      </div>
+      <button class="pagest-modal-close" onclick="document.getElementById('pagest-overlay').classList.remove('open');document.body.style.overflow='';" aria-label="Chiudi">✕</button>
+    </div>
+    <div class="pagest-modal-hint">
+      ✦ Cerca <strong id="pagest-hint-name">il tuo servizio</strong> nel calendario e seleziona data e ora
+    </div>
+    <iframe
+      id="pagest-iframe"
+      src=""
+      allow="payment"
+      title="Prenota il tuo appuntamento">
+    </iframe>
+  </div>
+</div>
+
 <!-- WHATSAPP FLOAT -->
 <a href="https://wa.me/message/2ANXRM6RP2SFP1" target="_blank" class="whatsapp-float" aria-label="Contattaci su WhatsApp">
   <div class="whatsapp-pulse"></div>
@@ -854,13 +890,27 @@ function getVariantKey(mode, variant) {
   return variant; // 'coppia_uomo' | 'coppia_donna' | 'coppia_mix'
 }
 
+// Nomi servizi per la modale
+const nomiServizi = [
+  'Ritual HairSpa',
+  'Ritual Hair & FaceSpa',
+  'Ritual Hair & BodySpa',
+  'Ritual Hair & BodySpa a 4 Mani'
+];
+const nomiVariant = {
+  singolo_uomo:  'Uomo — Singolo',
+  singolo_donna: 'Donna — Singolo',
+  coppia_uomo:   '♂♂ Coppia Uomo',
+  coppia_donna:  '♀♀ Coppia Donna',
+  coppia_mix:    '♂♀ Coppia Mix'
+};
+
 function updateCard(cardEl, cardIdx) {
   const s = servizi[cardIdx];
   const state = cardState[cardIdx];
   const prezzi = getPrezzi(s);
   const key = getVariantKey(state.mode, state.variant);
   const p = prezzi[key];
-  const link = s.links[key];
   const isCoppia = state.mode === 'coppia';
 
   const body = cardEl.querySelector('.card-body');
@@ -868,29 +918,73 @@ function updateCard(cardEl, cardIdx) {
 
   priceWrap.classList.add('fading');
   setTimeout(() => {
-    // prezzo
     body.querySelector('.price-label').textContent = p.label;
     const oldEl = body.querySelector('.old-label');
     if (oldEl) oldEl.textContent = p.vecchio || '';
 
-    // durata
     const durKey = isCoppia ? 'coppia' : (state.variant === 'uomo' ? 'singolo_uomo' : 'singolo_donna');
     body.querySelector('.duration-label').textContent = s.durata[durKey];
 
-    // descrizione
     const descKey = isCoppia ? 'coppia' : (state.variant === 'uomo' ? 'singolo_uomo' : 'singolo_donna');
     body.querySelector('.desc-label').textContent = s.desc[descKey];
 
-    // link
-    body.querySelector('.book-link').href = link;
+    // Salva il nome servizio sul pulsante per la modale
+    const nomeCompleto = `${nomiServizi[cardIdx]} · ${nomiVariant[key] || key}`;
+    body.querySelector('.book-link').dataset.serviceName = nomeCompleto;
 
-    // badge coppia
     const badge = cardEl.querySelector('.coppia-badge');
     if (badge) badge.classList.toggle('visible', isCoppia);
 
     priceWrap.classList.remove('fading');
   }, 200);
 }
+
+// ============================================================
+//  MODALE PAGEST
+// ============================================================
+const PAGEST_URL = 'https://www.my-booking-app.com/booking/home/jEd9x58xmaP13f5dlJDkFfcBCQ4uin3M#Prenotazione';
+
+function apriModal(btn) {
+  const serviceName = btn.dataset.serviceName || btn.closest('.card-body').querySelector('h3').textContent;
+  document.getElementById('pagest-service-name').textContent = serviceName;
+  document.getElementById('pagest-hint-name').textContent = serviceName.split('·')[0].trim();
+  const iframe = document.getElementById('pagest-iframe');
+  if (!iframe.src || iframe.src === 'about:blank') {
+    iframe.src = PAGEST_URL;
+  }
+  document.getElementById('pagest-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function chiudiModal(e) {
+  if (e.target === document.getElementById('pagest-overlay')) {
+    document.getElementById('pagest-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+// Chiudi con ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('pagest-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+// Collega tutti i pulsanti .book-link alla modale
+document.querySelectorAll('.book-link').forEach(btn => {
+  btn.removeAttribute('href');
+  btn.setAttribute('href', '#');
+  btn.setAttribute('target', '_self');
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    apriModal(btn);
+  });
+  // Imposta il nome iniziale (variante default: singolo uomo)
+  const card = btn.closest('.card');
+  const idx = parseInt(card.dataset.card);
+  btn.dataset.serviceName = `${nomiServizi[idx]} · Uomo — Singolo`;
+});
 
 // ============================================================
 //  SWITCH MODALITÀ (Singolo / Coppia)
