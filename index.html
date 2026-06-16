@@ -325,6 +325,47 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
 .whatsapp-pulse{position:absolute;width:56px;height:56px;border-radius:50%;background:rgba(37,211,102,0.4);animation:waPulse 2s ease-out infinite;}
 @keyframes waPulse{0%{transform:scale(1);opacity:0.8;}100%{transform:scale(1.7);opacity:0;}}
 
+/* GIFT SECTION */
+.gift{padding:6rem 2rem;background:var(--bg2);}
+.gift-header{text-align:center;margin-bottom:3.5rem;}
+.gift-header .section-title{color:var(--cream);}
+.gift-header p{font-size:0.88rem;color:var(--mid);max-width:480px;margin:0 auto;}
+
+.gift-container{max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
+
+/* Left: service selector */
+.gift-selector{background:var(--bg3);border:1px solid var(--border);padding:2rem;}
+.gift-selector h3{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--cream);margin-bottom:1.2rem;padding-bottom:0.8rem;border-bottom:1px solid var(--border);}
+.gift-service-list{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.4rem;}
+.gift-service-btn{background:transparent;border:1px solid var(--border);color:var(--mid);font-family:var(--sans);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.75rem 1rem;cursor:pointer;text-align:left;transition:all 0.2s;display:flex;justify-content:space-between;align-items:center;}
+.gift-service-btn:hover{border-color:rgba(184,152,106,0.4);color:var(--gold);}
+.gift-service-btn.active{background:rgba(184,152,106,0.1);border-color:var(--gold);color:var(--gold-light);}
+.gift-service-btn .gift-price{font-family:var(--serif);font-size:1rem;font-weight:400;}
+.gift-variant-toggle{display:flex;gap:0.4rem;margin-bottom:1rem;}
+.gift-variant-btn{flex:1;background:transparent;border:1px solid var(--border);color:var(--mid);font-family:var(--sans);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;padding:0.4rem 0.3rem;cursor:pointer;transition:all 0.2s;}
+.gift-variant-btn.active{background:var(--gold);color:#0D0D0D;border-color:var(--gold);}
+.gift-selected-summary{background:rgba(0,0,0,0.2);border:1px solid rgba(184,152,106,0.15);padding:1rem;text-align:center;}
+.gift-selected-summary .gift-sel-name{font-family:var(--serif);font-size:1rem;color:var(--cream);display:block;margin-bottom:0.25rem;}
+.gift-selected-summary .gift-sel-price{font-family:var(--serif);font-size:1.6rem;color:var(--gold);}
+
+/* Right: form */
+.gift-form-panel{background:var(--bg3);border:1px solid var(--border);padding:2rem;}
+.gift-form-panel h3{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--cream);margin-bottom:1.2rem;padding-bottom:0.8rem;border-bottom:1px solid var(--border);}
+.gift-field{margin-bottom:1rem;}
+.gift-field label{display:block;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.45rem;}
+.gift-field input,.gift-field textarea{width:100%;background:rgba(0,0,0,0.25);border:1px solid var(--border);color:var(--cream);font-family:var(--sans);font-size:0.82rem;padding:0.7rem 0.9rem;outline:none;resize:none;transition:border 0.2s;}
+.gift-field input:focus,.gift-field textarea:focus{border-color:rgba(184,152,106,0.5);}
+.gift-field input::placeholder,.gift-field textarea::placeholder{color:var(--low);}
+.gift-field textarea{height:80px;line-height:1.6;}
+.gift-note{font-size:0.72rem;color:var(--mid);line-height:1.7;margin-bottom:1.4rem;font-style:italic;}
+.btn-gift{display:flex;align-items:center;justify-content:center;gap:0.5rem;background:var(--gold);color:#0D0D0D;border:none;font-family:var(--sans);font-size:0.68rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;padding:1rem 1.5rem;cursor:pointer;transition:background 0.25s;width:100%;text-decoration:none;}
+.btn-gift:hover{background:var(--gold-light);}
+.btn-gift:disabled{background:rgba(184,152,106,0.3);color:rgba(13,13,13,0.5);cursor:not-allowed;}
+
+@media(max-width:768px){
+  .gift-container{grid-template-columns:1fr;}
+}
+
 /* MOBILE */
 @media(max-width:768px){
   nav{display:none;}
@@ -351,6 +392,7 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
   <nav id="main-nav">
     <a href="#trattamenti">Rituali</a>
     <a href="#extra">Extra</a>
+    <a href="#regalo">Regalo</a>
     <a href="#sedi">Sedi</a>
     <a href="#contatti">Contatti</a>
     <a href="#prenota" class="nav-cta">Prenota</a>
@@ -622,6 +664,67 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
     </div>
   </div>
   <p class="extras-note reveal">✦ <strong>+10 minuti extra</strong> su ogni trattamento — 10€</p>
+</section>
+
+<!-- GIFT SECTION -->
+<section class="gift" id="regalo">
+  <div class="gift-header">
+    <span class="section-label reveal">Fai un Regalo</span>
+    <h2 class="section-title reveal">Regala un <em>Rituale</em><br>di Lusso</h2>
+    <p class="reveal">Scegli il servizio, personalizza il messaggio e paga in sicurezza. Il salone invierà il voucher al destinatario.</p>
+  </div>
+
+  <div class="gift-container reveal">
+    <!-- Left: service selector -->
+    <div class="gift-selector">
+      <h3>Scegli il Rituale</h3>
+
+      <!-- Mode: Singolo / Coppia -->
+      <div class="gift-variant-toggle" style="margin-bottom:0.8rem;">
+        <button class="gift-variant-btn active" onclick="giftSetMode('singolo',this)">Singolo</button>
+        <button class="gift-variant-btn" onclick="giftSetMode('coppia',this)">Coppia</button>
+      </div>
+
+      <!-- Gender inside mode -->
+      <div class="gift-variant-toggle" id="gift-gender-toggle">
+        <button class="gift-variant-btn active" onclick="giftSetGender('uomo',this)">♂ Uomo</button>
+        <button class="gift-variant-btn" onclick="giftSetGender('donna',this)">♀ Donna</button>
+      </div>
+
+      <!-- Service list -->
+      <div class="gift-service-list" id="gift-service-list">
+        <!-- filled by JS -->
+      </div>
+
+      <!-- Summary -->
+      <div class="gift-selected-summary">
+        <span class="gift-sel-name" id="gift-sel-name">Seleziona un rituale</span>
+        <span class="gift-sel-price" id="gift-sel-price">—</span>
+      </div>
+    </div>
+
+    <!-- Right: form -->
+    <div class="gift-form-panel">
+      <h3>Personalizza il Voucher</h3>
+      <div class="gift-field">
+        <label>Nome del destinatario *</label>
+        <input type="text" id="gift-to" placeholder="Es. Maria Rossi" maxlength="60">
+      </div>
+      <div class="gift-field">
+        <label>Il tuo nome *</label>
+        <input type="text" id="gift-from" placeholder="Es. Marco" maxlength="60">
+      </div>
+      <div class="gift-field">
+        <label>Messaggio (opzionale)</label>
+        <textarea id="gift-msg" placeholder="Scrivi un pensiero per chi riceve il regalo…" maxlength="200"></textarea>
+      </div>
+      <p class="gift-note">✦ Dopo il pagamento il salone riceve i tuoi dati e provvede ad inviare il voucher personalizzato al destinatario entro 24 ore.</p>
+      <a href="#" id="gift-pay-btn" class="btn-gift" onclick="return giftPay()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Paga e Regala
+      </a>
+    </div>
+  </div>
 </section>
 
 <!-- BOOKING -->
@@ -940,6 +1043,122 @@ function switchVariant(btn, variant) {
   cardState[cardIdx].variant = variant;
   updateCard(card, cardIdx);
 }
+
+// ============================================================
+//  GIFT SECTION — dati e logica
+// ============================================================
+const giftServizi = [
+  { nome: 'Ritual HairSpa',              base: 39,  links: { singolo_uomo:'https://calendly.com/scintillaanselmo0/ritual-hairspa', singolo_donna:'https://calendly.com/scintillaanselmo0/ritual-hairspa-clone-1', coppia_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-clone', coppia_mix:'https://calendly.com/scintillaanselmo0/ritual-hair-spa-di-coppia-uomo-clone', coppia_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-spa-di-coppia-clone' } },
+  { nome: 'Ritual Hair & FaceSpa',       base: 59,  links: { singolo_uomo:'https://calendly.com/scintillaanselmo0/ritual-hairspa-clone', singolo_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-clone-1', coppia_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-uomo-clone', coppia_mix:'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-di-coppia-uomo-clone', coppia_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-di-coppia-clone' } },
+  { nome: 'Ritual Hair & BodySpa',       base: 89,  links: { singolo_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-clone', singolo_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-clone-1', coppia_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-donna-clone', coppia_mix:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-di-coppia-uomo-clone', coppia_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-di-coppia-clone' } },
+  { nome: 'Ritual Hair & BodySpa 4 Mani',base: 129, links: { singolo_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-clone', singolo_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-clone-1', coppia_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-donna-clone', coppia_mix:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-di-coppia-uomo-clone', coppia_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-di-coppia-clone' } },
+];
+
+let giftMode     = 'singolo';   // 'singolo' | 'coppia'
+let giftGender   = 'uomo';      // 'uomo' | 'donna' | 'coppia_uomo' | 'coppia_mix' | 'coppia_donna'
+let giftSelected = null;        // index into giftServizi
+
+function giftGetKey() {
+  if (giftMode === 'singolo') return giftGender === 'uomo' ? 'singolo_uomo' : 'singolo_donna';
+  return giftGender; // 'coppia_uomo' | 'coppia_mix' | 'coppia_donna'
+}
+
+function giftGetPrezzo(idx) {
+  const s = giftServizi[idx];
+  const u = s.base;
+  const d = u + 10;
+  const map = { singolo_uomo: u, singolo_donna: d, coppia_uomo: u*2, coppia_donna: d*2, coppia_mix: u+d };
+  return map[giftGetKey()];
+}
+
+function giftRenderList() {
+  const list = document.getElementById('gift-service-list');
+  if (!list) return;
+  list.innerHTML = '';
+  giftServizi.forEach((s, i) => {
+    const prezzo = giftGetPrezzo(i);
+    const btn = document.createElement('button');
+    btn.className = 'gift-service-btn' + (giftSelected === i ? ' active' : '');
+    btn.innerHTML = `<span>${s.nome}</span><span class="gift-price">${prezzo}€</span>`;
+    btn.onclick = () => giftSelectService(i);
+    list.appendChild(btn);
+  });
+  giftUpdateSummary();
+}
+
+function giftSelectService(idx) {
+  giftSelected = idx;
+  giftRenderList();
+}
+
+function giftUpdateSummary() {
+  const nameEl  = document.getElementById('gift-sel-name');
+  const priceEl = document.getElementById('gift-sel-price');
+  if (!nameEl || !priceEl) return;
+  if (giftSelected === null) {
+    nameEl.textContent  = 'Seleziona un rituale';
+    priceEl.textContent = '—';
+  } else {
+    const varLabel = { singolo_uomo:'Uomo', singolo_donna:'Donna', coppia_uomo:'Coppia ♂♂', coppia_mix:'Coppia ♂♀', coppia_donna:'Coppia ♀♀' }[giftGetKey()];
+    nameEl.textContent  = giftServizi[giftSelected].nome + ' · ' + varLabel;
+    priceEl.textContent = giftGetPrezzo(giftSelected) + '€';
+  }
+}
+
+function giftSetMode(mode, btn) {
+  giftMode = mode;
+  btn.parentElement.querySelectorAll('.gift-variant-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // Rebuild gender toggle
+  const toggle = document.getElementById('gift-gender-toggle');
+  if (mode === 'singolo') {
+    toggle.innerHTML = `
+      <button class="gift-variant-btn active" onclick="giftSetGender('uomo',this)">♂ Uomo</button>
+      <button class="gift-variant-btn" onclick="giftSetGender('donna',this)">♀ Donna</button>`;
+    giftGender = 'uomo';
+  } else {
+    toggle.innerHTML = `
+      <button class="gift-variant-btn active" onclick="giftSetGender('coppia_uomo',this)">♂♂ Uomo</button>
+      <button class="gift-variant-btn" onclick="giftSetGender('coppia_mix',this)">♂♀ Mix</button>
+      <button class="gift-variant-btn" onclick="giftSetGender('coppia_donna',this)">♀♀ Donna</button>`;
+    giftGender = 'coppia_uomo';
+  }
+  giftRenderList();
+}
+
+function giftSetGender(gender, btn) {
+  giftGender = gender;
+  btn.parentElement.querySelectorAll('.gift-variant-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  giftRenderList();
+}
+
+function giftPay() {
+  if (giftSelected === null) { alert('Seleziona prima un rituale!'); return false; }
+  const toName  = document.getElementById('gift-to').value.trim();
+  const fromName= document.getElementById('gift-from').value.trim();
+  if (!toName)   { alert('Inserisci il nome del destinatario.'); return false; }
+  if (!fromName) { alert('Inserisci il tuo nome.'); return false; }
+
+  // Build Stripe URL with metadata via query params (shown in Stripe note/metadata field)
+  const msg    = document.getElementById('gift-msg').value.trim();
+  const key    = giftGetKey();
+  const link   = giftServizi[giftSelected].links[key];
+  const prezzo = giftGetPrezzo(giftSelected);
+  const nome   = giftServizi[giftSelected].nome;
+  const varLabel = { singolo_uomo:'Uomo', singolo_donna:'Donna', coppia_uomo:'Coppia ♂♂', coppia_mix:'Coppia ♂♀', coppia_donna:'Coppia ♀♀' }[key];
+
+  // Append client_reference_id as encoded gift info (visible in Stripe dashboard)
+  const giftInfo = encodeURIComponent(`REGALO | Da: ${fromName} | A: ${toName} | Servizio: ${nome} ${varLabel} ${prezzo}€${msg ? ' | Messaggio: ' + msg : ''}`);
+  const stripeUrl = link + '?client_reference_id=' + giftInfo;
+
+  window.open(stripeUrl, '_blank');
+  return false;
+}
+
+// Init gift list on page load
+document.addEventListener('DOMContentLoaded', giftRenderList);
 
 // ============================================================
 //  SLIDESHOW
