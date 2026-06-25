@@ -1141,17 +1141,30 @@ function giftPay() {
   if (!toName)   { alert('Inserisci il nome del destinatario.'); return false; }
   if (!fromName) { alert('Inserisci il tuo nome.'); return false; }
 
-  // Build Stripe URL with metadata via query params (shown in Stripe note/metadata field)
-  const msg    = document.getElementById('gift-msg').value.trim();
-  const key    = giftGetKey();
-  const link   = giftServizi[giftSelected].links[key];
-  const prezzo = giftGetPrezzo(giftSelected);
-  const nome   = giftServizi[giftSelected].nome;
+  const msg      = document.getElementById('gift-msg').value.trim();
+  const key      = giftGetKey();
+  const link     = giftServizi[giftSelected].links[key];
+  const prezzo   = giftGetPrezzo(giftSelected);
+  const nome     = giftServizi[giftSelected].nome;
   const varLabel = { singolo_uomo:'Uomo', singolo_donna:'Donna', coppia_uomo:'Coppia ♂♂', coppia_mix:'Coppia ♂♀', coppia_donna:'Coppia ♀♀' }[key];
 
-  // Append client_reference_id as encoded gift info (visible in Stripe dashboard)
+  // Costruisci success_url con tutti i dati del voucher
+  const successParams = new URLSearchParams({
+    da:       fromName,
+    a:        toName,
+    servizio: nome,
+    variante: varLabel,
+    prezzo:   prezzo + '€',
+  });
+  if (msg) successParams.set('msg', msg);
+
+  const successUrl = 'https://carusosaloon.it/success.html?' + successParams.toString();
+
+  // Dati per il dashboard Stripe
   const giftInfo = encodeURIComponent(`REGALO | Da: ${fromName} | A: ${toName} | Servizio: ${nome} ${varLabel} ${prezzo}€${msg ? ' | Messaggio: ' + msg : ''}`);
-  const stripeUrl = link + '?client_reference_id=' + giftInfo;
+
+  // Link Stripe con success_url e client_reference_id
+  const stripeUrl = link + '?success_url=' + encodeURIComponent(successUrl) + '&client_reference_id=' + giftInfo;
 
   window.open(stripeUrl, '_blank');
   return false;
