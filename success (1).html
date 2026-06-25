@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grazie — Caruso Saloon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #B8986A;
+    --gold-light: #D4B483;
+    --gold-bright: #E8C87A;
+    --bg: #0D0D0D;
+    --bg2: #141414;
+    --border: rgba(184,152,106,0.25);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: #F0E8D8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  /* ── HEADER THANK YOU ── */
+  .ty-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .ty-header .eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .ty-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    color: #F0E8D8;
+    line-height: 1.15;
+    margin-bottom: 0.8rem;
+  }
+  .ty-header h1 em { font-style: italic; color: var(--gold-light); }
+  .ty-header p {
+    font-size: 0.85rem;
+    color: rgba(240,232,216,0.6);
+    max-width: 460px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* ── VOUCHER CARD ── */
+  .voucher-wrap {
+    width: 100%;
+    max-width: 680px;
+    margin-bottom: 2rem;
+  }
+
+  #voucher {
+    background: #000;
+    border: 1px solid var(--gold);
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .v-gold-bar {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, #000, #B8986A, #E8C87A, #B8986A, #000);
+  }
+
+  .v-body {
+    padding: 2.8rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .v-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+  }
+
+  .v-brand { flex: 1; }
+  .v-brand .salon-name {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+  }
+  .v-brand .salon-sub {
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 0.4rem;
+    opacity: 0.7;
+  }
+
+  .v-badge {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .v-badge .badge-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .v-badge .badge-text {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--gold-bright);
+    letter-spacing: 0.04em;
+  }
+
+  .v-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin-bottom: 2rem;
+  }
+
+  /* Servizio */
+  .v-service {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .v-service .service-eyebrow {
+    font-size: 0.58rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+  .v-service .service-name {
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 300;
+    color: #F0E8D8;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+  }
+  .v-service .service-name em { font-style: italic; color: var(--gold-light); }
+  .v-service .service-variant {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* Regalo info */
+  .v-gift-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .v-gift-field { }
+  .v-gift-field .field-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.65;
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+  .v-gift-field .field-value {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: #F0E8D8;
+  }
+
+  /* Messaggio */
+  .v-message-box {
+    background: rgba(184,152,106,0.06);
+    border: 1px solid rgba(184,152,106,0.2);
+    border-left: 3px solid var(--gold);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 2rem;
+  }
+  .v-message-box .msg-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.65;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .v-message-box .msg-text {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(240,232,216,0.85);
+    line-height: 1.7;
+  }
+
+  .v-divider2 {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(184,152,106,0.3), transparent);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Footer voucher */
+  .v-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+  }
+  .v-footer .v-instructions {
+    font-size: 0.72rem;
+    color: rgba(240,232,216,0.45);
+    line-height: 1.7;
+    max-width: 340px;
+  }
+  .v-footer .v-instructions strong {
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .v-footer .v-code {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .v-footer .v-code .code-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .v-footer .v-code .code-val {
+    font-family: var(--serif);
+    font-size: 0.9rem;
+    color: rgba(240,232,216,0.4);
+    letter-spacing: 0.1em;
+  }
+
+  /* Corner ornaments */
+  .corner { position: absolute; width: 18px; height: 18px; }
+  .corner-tl { top: 14px; left: 14px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .corner-tr { top: 14px; right: 14px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+  .corner-bl { bottom: 14px; left: 14px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .corner-br { bottom: 14px; right: 14px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+  /* ── ACTIONS ── */
+  .actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .btn-dl {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--gold);
+    color: #0D0D0D;
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+  }
+  .btn-dl:hover { background: var(--gold-light); }
+  .btn-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid rgba(184,152,106,0.4);
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    text-decoration: none;
+  }
+  .btn-home:hover { border-color: var(--gold); color: var(--gold-light); }
+
+  .note {
+    font-size: 0.75rem;
+    color: rgba(240,232,216,0.35);
+    text-align: center;
+    max-width: 460px;
+    line-height: 1.7;
+  }
+
+  /* ── PRINT / PDF ── */
+  @media print {
+    body {
+      background: #000 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+    .ty-header, .actions, .note { display: none !important; }
+    .voucher-wrap { max-width: 100%; margin: 0; }
+    #voucher { border: 1px solid #B8986A !important; page-break-inside: avoid; }
+    .v-gold-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .v-body { padding: 2rem 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ty-header">
+  <span class="eyebrow">Pagamento Confermato</span>
+  <h1>Grazie per il tuo <em>Regalo</em></h1>
+  <p>Il voucher è pronto. Scaricalo e invialo al destinatario — porterà un momento di lusso indimenticabile.</p>
+</div>
+
+<div class="voucher-wrap">
+  <div id="voucher">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="v-gold-bar"></div>
+
+    <div class="v-body">
+
+      <div class="v-top">
+        <div class="v-brand">
+          <div class="salon-name">Caruso Saloon</div>
+          <div class="salon-sub">Ritual HairSpa · Aversa &amp; Frattamaggiore</div>
+        </div>
+        <div class="v-badge">
+          <span class="badge-label">Gift Voucher</span>
+          <span class="badge-text">Rituale di Lusso</span>
+        </div>
+      </div>
+
+      <div class="v-divider"></div>
+
+      <div class="v-service">
+        <span class="service-eyebrow">Il Rituale Scelto</span>
+        <div class="service-name" id="v-service-name">—</div>
+        <div class="service-variant" id="v-service-variant"></div>
+      </div>
+
+      <div class="v-gift-row">
+        <div class="v-gift-field">
+          <span class="field-label">Per</span>
+          <div class="field-value" id="v-to">—</div>
+        </div>
+        <div class="v-gift-field">
+          <span class="field-label">Con affetto da</span>
+          <div class="field-value" id="v-from">—</div>
+        </div>
+      </div>
+
+      <div class="v-message-box" id="v-msg-box" style="display:none">
+        <span class="msg-label">Un pensiero per te</span>
+        <div class="msg-text" id="v-msg"></div>
+      </div>
+
+      <div class="v-divider2"></div>
+
+      <div class="v-footer">
+        <div class="v-instructions">
+          Presentate questo voucher in reception al momento della prenotazione.<br>
+          Per info chiamate <strong>081 18655105</strong> (Aversa)<br>
+          oppure scrivete su <strong>carusosaloon.it</strong>
+        </div>
+        <div class="v-code">
+          <span class="code-label">Codice</span>
+          <span class="code-val" id="v-code">—</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="v-gold-bar"></div>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="btn-dl" onclick="downloadPDF()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Scarica Voucher PDF
+  </button>
+  <a href="/" class="btn-home">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    Torna al sito
+  </a>
+</div>
+
+<p class="note">Il voucher non ha scadenza. Per prenotare il rituale il destinatario può contattare il salone tramite telefono, WhatsApp o dal sito carusosaloon.it</p>
+
+<script>
+// ── Leggi parametri URL ──
+function getParam(name) {
+  const url = new URLSearchParams(window.location.search);
+  return url.get(name) ? decodeURIComponent(url.get(name)) : null;
+}
+
+const da       = getParam('da')       || 'Il tuo nome';
+const a        = getParam('a')        || 'Il destinatario';
+const servizio = getParam('servizio') || 'Ritual HairSpa';
+const variante = getParam('variante') || '';
+const msg      = getParam('msg')      || '';
+const prezzo   = getParam('prezzo')   || '';
+
+// ── Popola voucher ──
+document.getElementById('v-to').textContent   = a;
+document.getElementById('v-from').textContent = da;
+
+// Nome servizio con prezzo
+let nomeServizio = servizio;
+if (prezzo) nomeServizio += ' — ' + prezzo + '€';
+document.getElementById('v-service-name').innerHTML = nomeServizio.replace('&', '&amp;');
+
+if (variante) {
+  document.getElementById('v-service-variant').textContent = variante;
+}
+
+if (msg) {
+  document.getElementById('v-msg-box').style.display = 'block';
+  document.getElementById('v-msg').textContent = '"' + msg + '"';
+}
+
+// Codice univoco basato su timestamp
+const code = 'CS-' + Date.now().toString(36).toUpperCase().slice(-6);
+document.getElementById('v-code').textContent = code;
+
+// ── Titolo pagina ──
+document.title = 'Voucher Regalo — Caruso Saloon';
+
+// ── Download PDF ──
+function downloadPDF() {
+  // Nascondi elementi non voucher e stampa
+  const style = document.createElement('style');
+  style.id = 'print-override';
+  style.textContent = `
+    @media print {
+      body { background: #000 !important; }
+      .ty-header, .actions, .note { display: none !important; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+  `;
+  document.head.appendChild(style);
+  window.print();
+  setTimeout(() => {
+    const el = document.getElementById('print-override');
+    if (el) el.remove();
+  }, 1000);
+}
+</script>
+</body>
+</html>
