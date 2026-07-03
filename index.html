@@ -1149,25 +1149,22 @@ function giftPay() {
   const varLabel = { singolo_uomo:'Uomo', singolo_donna:'Donna', coppia_uomo:'Coppia ♂♂', coppia_mix:'Coppia ♂♀', coppia_donna:'Coppia ♀♀' }[key];
 
   // Costruisci success_url con tutti i dati del voucher
-  const successParams = new URLSearchParams({
-    regalo:   '1',
+  // Salva i dati del voucher nel localStorage prima di andare su Stripe
+  localStorage.setItem('caruso_regalo', JSON.stringify({
     da:       fromName,
     a:        toName,
     servizio: nome,
     variante: varLabel,
     prezzo:   prezzo + '€',
-  });
-  if (msg) successParams.set('msg', msg);
-
-  const successUrl = 'https://carusosaloon.it/success.html?' + successParams.toString();
+    msg:      msg,
+    ts:       Date.now()
+  }));
 
   // Dati per il dashboard Stripe
   const giftInfo = encodeURIComponent(`REGALO | Da: ${fromName} | A: ${toName} | Servizio: ${nome} ${varLabel} ${prezzo}€${msg ? ' | Messaggio: ' + msg : ''}`);
 
-  // Link Stripe con success_url e client_reference_id
-  const stripeUrl = link + '?success_url=' + encodeURIComponent(successUrl) + '&client_reference_id=' + giftInfo;
-
-  window.open(stripeUrl, '_blank');
+  const stripeUrl = link + '?client_reference_id=' + giftInfo;
+  window.location.href = stripeUrl;
   return false;
 }
 
