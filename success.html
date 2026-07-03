@@ -420,6 +420,10 @@
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     Scarica Voucher PDF
   </button>
+  <button class="btn-dl" onclick="shareVoucher()" style="background:transparent;color:var(--gold);border:1px solid rgba(184,152,106,0.4);">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    Condividi Voucher
+  </button>
   <a href="/" class="btn-home">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
     Torna al sito
@@ -429,47 +433,60 @@
 <p class="note">Il voucher non ha scadenza. Per prenotare il rituale il destinatario può contattare il salone tramite telefono, WhatsApp o dal sito carusosaloon.it</p>
 
 <script>
-// ── Leggi parametri URL ──
-function getParam(name) {
-  const url = new URLSearchParams(window.location.search);
-  return url.get(name) ? decodeURIComponent(url.get(name)) : null;
+// ── Leggi dati dal localStorage ──
+let giftData = null;
+try {
+  const raw = localStorage.getItem('caruso_regalo');
+  if (raw) {
+    giftData = JSON.parse(raw);
+    // Valido solo se salvato nelle ultime 2 ore
+    if (Date.now() - giftData.ts > 7200000) giftData = null;
+  }
+} catch(e) { giftData = null; }
+
+if (giftData) {
+  // ── MODALITÀ REGALO: mostra voucher completo ──
+  const { da, a, servizio, variante, msg, prezzo } = giftData;
+
+  document.getElementById('v-to').textContent   = a || '—';
+  document.getElementById('v-from').textContent = da || '—';
+
+  let nomeServizio = servizio || 'Ritual HairSpa';
+  if (prezzo) nomeServizio += ' — ' + prezzo;
+  document.getElementById('v-service-name').textContent = nomeServizio;
+
+  if (variante) document.getElementById('v-service-variant').textContent = variante;
+
+  if (msg) {
+    document.getElementById('v-msg-box').style.display = 'block';
+    document.getElementById('v-msg').textContent = '\u201c' + msg + '\u201d';
+  }
+
+  // Codice univoco
+  const code = 'CS-' + Date.now().toString(36).toUpperCase().slice(-6);
+  document.getElementById('v-code').textContent = code;
+
+  // Pulisci localStorage dopo aver letto
+  localStorage.removeItem('caruso_regalo');
+
+  document.title = 'Voucher Regalo — Caruso Saloon';
+
+} else {
+  // ── MODALITÀ ACQUISTO NORMALE ──
+  document.querySelector('.ty-header h1').innerHTML = 'Grazie per il tuo <em>acquisto</em>';
+  document.querySelector('.ty-header p').textContent = 'Il tuo pagamento è stato confermato. Il salone ti contatterà per organizzare il tuo rituale.';
+  document.querySelector('.voucher-wrap').style.display = 'none';
+  document.querySelector('.actions').innerHTML = `
+    <a href="/" class="btn-home">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      Torna al sito
+    </a>`;
+  document.querySelector('.note').textContent = 'Per qualsiasi informazione contatta il salone al 081 18655105 o su WhatsApp.';
+  document.title = 'Grazie — Caruso Saloon';
 }
-
-const da       = getParam('da')       || 'Il tuo nome';
-const a        = getParam('a')        || 'Il destinatario';
-const servizio = getParam('servizio') || 'Ritual HairSpa';
-const variante = getParam('variante') || '';
-const msg      = getParam('msg')      || '';
-const prezzo   = getParam('prezzo')   || '';
-
-// ── Popola voucher ──
-document.getElementById('v-to').textContent   = a;
-document.getElementById('v-from').textContent = da;
-
-// Nome servizio con prezzo
-let nomeServizio = servizio;
-if (prezzo) nomeServizio += ' — ' + prezzo + '€';
-document.getElementById('v-service-name').innerHTML = nomeServizio.replace('&', '&amp;');
-
-if (variante) {
-  document.getElementById('v-service-variant').textContent = variante;
-}
-
-if (msg) {
-  document.getElementById('v-msg-box').style.display = 'block';
-  document.getElementById('v-msg').textContent = '"' + msg + '"';
-}
-
-// Codice univoco basato su timestamp
-const code = 'CS-' + Date.now().toString(36).toUpperCase().slice(-6);
-document.getElementById('v-code').textContent = code;
-
-// ── Titolo pagina ──
-document.title = 'Voucher Regalo — Caruso Saloon';
 
 // ── Download PDF ──
 function downloadPDF() {
-  // Nascondi elementi non voucher e stampa
   const style = document.createElement('style');
   style.id = 'print-override';
   style.textContent = `
@@ -485,6 +502,24 @@ function downloadPDF() {
     const el = document.getElementById('print-override');
     if (el) el.remove();
   }, 1000);
+}
+
+// ── Condividi ──
+async function shareVoucher() {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: 'Voucher Regalo — Caruso Saloon',
+        text: 'Ti regalo un rituale di lusso da Caruso Saloon! 🌿',
+        url: window.location.href
+      });
+    } catch(e) {}
+  } else {
+    // Fallback: copia link negli appunti
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      alert('Link copiato negli appunti! Incollalo e invialo al destinatario.');
+    });
+  }
 }
 </script>
 </body>
