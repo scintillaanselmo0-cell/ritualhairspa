@@ -715,6 +715,10 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
         <input type="text" id="gift-from" placeholder="Es. Marco" maxlength="60">
       </div>
       <div class="gift-field">
+        <label>La tua email * <span style="font-size:0.6rem;opacity:0.65">(riceverai il voucher qui)</span></label>
+        <input type="email" id="gift-email" placeholder="Es. marco@email.com" maxlength="100">
+      </div>
+      <div class="gift-field">
         <label>Messaggio (opzionale)</label>
         <textarea id="gift-msg" placeholder="Scrivi un pensiero per chi riceve il regalo…" maxlength="200"></textarea>
       </div>
@@ -1137,23 +1141,32 @@ function giftSetGender(gender, btn) {
 function giftPay() {
   if (giftSelected === null) { alert('Seleziona prima un rituale!'); return false; }
   const toName  = document.getElementById('gift-to').value.trim();
-  const fromName= document.getElementById('gift-from').value.trim();
+  const fromName = document.getElementById('gift-from').value.trim();
+  const email    = document.getElementById('gift-email') ? document.getElementById('gift-email').value.trim() : '';
   if (!toName)   { alert('Inserisci il nome del destinatario.'); return false; }
   if (!fromName) { alert('Inserisci il tuo nome.'); return false; }
+  if (!email)    { alert('Inserisci la tua email per ricevere il voucher.'); return false; }
 
-  // Build Stripe URL with metadata via query params (shown in Stripe note/metadata field)
-  const msg    = document.getElementById('gift-msg').value.trim();
-  const key    = giftGetKey();
-  const link   = giftServizi[giftSelected].links[key];
-  const prezzo = giftGetPrezzo(giftSelected);
-  const nome   = giftServizi[giftSelected].nome;
+  const msg      = document.getElementById('gift-msg').value.trim();
+  const key      = giftGetKey();
+  const link     = giftServizi[giftSelected].links[key];
+  const prezzo   = giftGetPrezzo(giftSelected);
+  const nome     = giftServizi[giftSelected].nome;
   const varLabel = { singolo_uomo:'Uomo', singolo_donna:'Donna', coppia_uomo:'Coppia ♂♂', coppia_mix:'Coppia ♂♀', coppia_donna:'Coppia ♀♀' }[key];
 
-  // Append client_reference_id as encoded gift info (visible in Stripe dashboard)
-  const giftInfo = encodeURIComponent(`REGALO | Da: ${fromName} | A: ${toName} | Servizio: ${nome} ${varLabel} ${prezzo}€${msg ? ' | Messaggio: ' + msg : ''}`);
-  const stripeUrl = link + '?client_reference_id=' + giftInfo;
+  // Costruisci success_url con tutti i dati nell'URL
+  const successParams = new URLSearchParams({
+    da: fromName, a: toName, email: email,
+    servizio: nome, variante: varLabel, prezzo: String(prezzo) + '€'
+  });
+  if (msg) successParams.set('msg', msg);
+  const successUrl = 'https://carusosaloon.it/success.html?' + successParams.toString();
 
-  window.open(stripeUrl, '_blank');
+  // Dati per il dashboard Stripe
+  const giftInfo = encodeURIComponent('REGALO | Da: ' + fromName + ' | A: ' + toName + ' | Servizio: ' + nome + ' ' + varLabel + ' ' + prezzo + '€' + (msg ? ' | Messaggio: ' + msg : ''));
+  const stripeUrl = link + '?success_url=' + encodeURIComponent(successUrl) + '&client_reference_id=' + giftInfo;
+
+  window.location.href = stripeUrl;
   return false;
 }
 
