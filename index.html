@@ -715,6 +715,10 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
         <input type="text" id="gift-from" placeholder="Es. Marco" maxlength="60">
       </div>
       <div class="gift-field">
+        <label>La tua email *</label>
+        <input type="email" id="gift-email" placeholder="Es. marco@email.com" maxlength="100">
+      </div>
+      <div class="gift-field">
         <label>Messaggio (opzionale)</label>
         <textarea id="gift-msg" placeholder="Scrivi un pensiero per chi riceve il regalo…" maxlength="200"></textarea>
       </div>
@@ -1048,10 +1052,10 @@ function switchVariant(btn, variant) {
 //  GIFT SECTION — dati e logica
 // ============================================================
 const giftServizi = [
-  { nome: 'Ritual HairSpa',               base: 39,  links: { singolo_uomo:'https://buy.stripe.com/bJe9ANfkW14m8eQbnbeIw0m', singolo_donna:'https://buy.stripe.com/7sY14hb4GdR8eDe3UJeIw0n', coppia_uomo:'https://buy.stripe.com/cNi4gtb4G6oG66IbnbeIw0o', coppia_mix:'https://buy.stripe.com/6oU8wJ3Ce9ASfHiaj7eIw0p', coppia_donna:'https://buy.stripe.com/dRmaER2ya6oG3YAezneIw0r' } },
-  { nome: 'Ritual Hair & FaceSpa',        base: 59,  links: { singolo_uomo:'https://buy.stripe.com/eVqeV72ya3cu66I3UJeIw0s', singolo_donna:'https://buy.stripe.com/6oUcMZ4GiaEWbr20IxeIw0t', coppia_uomo:'https://buy.stripe.com/14AfZbc8KdR8gLm2QFeIw0u', coppia_mix:'https://buy.stripe.com/8x2aER7Su14mcv6dvjeIw0v', coppia_donna:'https://buy.stripe.com/7sY5kxegS28qgLm8aZeIw0w' } },
-  { nome: 'Ritual Hair & BodySpa',        base: 89,  links: { singolo_uomo:'https://buy.stripe.com/cNibIV2yabJ07aM62ReIw0x', singolo_donna:'https://buy.stripe.com/4gMaER1u6dR8amY3UJeIw0l', coppia_uomo:'https://buy.stripe.com/4gMcMZa0C3cufHibnbeIw0y', coppia_mix:'https://buy.stripe.com/5kQ5kxc8K14m3YAgHveIw0z', coppia_donna:'https://buy.stripe.com/8x200dfkWbJ09iU3UJeIw0A' } },
-  { nome: 'Ritual Hair & BodySpa 4 Mani', base: 129, links: { singolo_uomo:'https://buy.stripe.com/3cI00ddcO14m8eQgHveIw0B', singolo_donna:'https://buy.stripe.com/fZu5kx6Oq28q66I62ReIw0C', coppia_uomo:'https://buy.stripe.com/dRm6oB8WyeVc8eQfDreIw0D', coppia_mix:'https://buy.stripe.com/14A4gt4Gi14meDebnbeIw0F', coppia_donna:'https://buy.stripe.com/5kQ9ANgp014m1QsgHveIw0E' } },
+  { nome: 'Ritual HairSpa',              base: 39,  links: { singolo_uomo:'https://calendly.com/scintillaanselmo0/ritual-hairspa', singolo_donna:'https://calendly.com/scintillaanselmo0/ritual-hairspa-clone-1', coppia_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-clone', coppia_mix:'https://calendly.com/scintillaanselmo0/ritual-hair-spa-di-coppia-uomo-clone', coppia_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-spa-di-coppia-clone' } },
+  { nome: 'Ritual Hair & FaceSpa',       base: 59,  links: { singolo_uomo:'https://calendly.com/scintillaanselmo0/ritual-hairspa-clone', singolo_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-clone-1', coppia_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-uomo-clone', coppia_mix:'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-di-coppia-uomo-clone', coppia_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-di-coppia-clone' } },
+  { nome: 'Ritual Hair & BodySpa',       base: 89,  links: { singolo_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-facespa-clone', singolo_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-clone-1', coppia_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-donna-clone', coppia_mix:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-di-coppia-uomo-clone', coppia_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-di-coppia-clone' } },
+  { nome: 'Ritual Hair & BodySpa 4 Mani',base: 129, links: { singolo_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-clone', singolo_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-clone-1', coppia_uomo:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-donna-clone', coppia_mix:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-di-coppia-uomo-clone', coppia_donna:'https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-a-4-mani-di-coppia-clone' } },
 ];
 
 let giftMode     = 'singolo';   // 'singolo' | 'coppia'
@@ -1136,34 +1140,37 @@ function giftSetGender(gender, btn) {
 
 function giftPay() {
   if (giftSelected === null) { alert('Seleziona prima un rituale!'); return false; }
-  const toName  = document.getElementById('gift-to').value.trim();
-  const fromName= document.getElementById('gift-from').value.trim();
+  const toName   = document.getElementById('gift-to').value.trim();
+  const fromName = document.getElementById('gift-from').value.trim();
+  const email    = document.getElementById('gift-email').value.trim();
   if (!toName)   { alert('Inserisci il nome del destinatario.'); return false; }
   if (!fromName) { alert('Inserisci il tuo nome.'); return false; }
+  if (!email)    { alert('Inserisci la tua email per ricevere il voucher.'); return false; }
 
-  const msg      = document.getElementById('gift-msg').value.trim();
-  const key      = giftGetKey();
-  const link     = giftServizi[giftSelected].links[key];
-  const prezzo   = giftGetPrezzo(giftSelected);
-  const nome     = giftServizi[giftSelected].nome;
+  // Build Stripe URL with metadata via query params (shown in Stripe note/metadata field)
+  const msg    = document.getElementById('gift-msg').value.trim();
+  const key    = giftGetKey();
+  const link   = giftServizi[giftSelected].links[key];
+  const prezzo = giftGetPrezzo(giftSelected);
+  const nome   = giftServizi[giftSelected].nome;
   const varLabel = { singolo_uomo:'Uomo', singolo_donna:'Donna', coppia_uomo:'Coppia ♂♂', coppia_mix:'Coppia ♂♀', coppia_donna:'Coppia ♀♀' }[key];
 
-  // Costruisci success_url con tutti i dati del voucher
-  // Salva i dati del voucher nel localStorage prima di andare su Stripe
+  // Salva nel localStorage per success.html
   localStorage.setItem('caruso_regalo', JSON.stringify({
     da:       fromName,
     a:        toName,
+    email:    email,
     servizio: nome,
     variante: varLabel,
-    prezzo:   prezzo + '€',
+    prezzo:   String(prezzo) + '€',
     msg:      msg,
     ts:       Date.now()
   }));
 
   // Dati per il dashboard Stripe
   const giftInfo = encodeURIComponent(`REGALO | Da: ${fromName} | A: ${toName} | Servizio: ${nome} ${varLabel} ${prezzo}€${msg ? ' | Messaggio: ' + msg : ''}`);
-
   const stripeUrl = link + '?client_reference_id=' + giftInfo;
+
   window.location.href = stripeUrl;
   return false;
 }
