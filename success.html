@@ -434,15 +434,36 @@
 <p class="note">Il voucher non ha scadenza. Per prenotare il rituale il destinatario può contattare il salone tramite telefono, WhatsApp o dal sito carusosaloon.it</p>
 
 <script>
-// ── Leggi dati dal localStorage ──
+// ── Leggi dati: prima da URL params (link email), poi localStorage ──
+function getParam(name) {
+  return decodeURIComponent(new URLSearchParams(window.location.search).get(name) || '');
+}
+
 let giftData = null;
-try {
-  const raw = localStorage.getItem('caruso_regalo');
-  if (raw) {
-    giftData = JSON.parse(raw);
-    if (Date.now() - giftData.ts > 7200000) giftData = null; // scade dopo 2 ore
-  }
-} catch(e) { giftData = null; }
+
+// Prova prima dall'URL (link nell'email)
+const urlDa = getParam('da');
+if (urlDa) {
+  giftData = {
+    da:       urlDa,
+    a:        getParam('a'),
+    email:    getParam('email'),
+    servizio: getParam('servizio'),
+    variante: getParam('variante'),
+    prezzo:   getParam('prezzo'),
+    msg:      getParam('msg'),
+    ts:       Date.now()
+  };
+} else {
+  // Altrimenti dal localStorage (redirect diretto da Stripe)
+  try {
+    const raw = localStorage.getItem('caruso_regalo');
+    if (raw) {
+      giftData = JSON.parse(raw);
+      if (Date.now() - giftData.ts > 7200000) giftData = null;
+    }
+  } catch(e) { giftData = null; }
+}
 
 if (giftData) {
   // ── MODALITÀ REGALO: mostra voucher completo ──
@@ -466,8 +487,16 @@ if (giftData) {
   const code = 'CS-' + Date.now().toString(36).toUpperCase().slice(-6);
   document.getElementById('v-code').textContent = code;
 
+  // Costruisci link permanente al voucher
+  const voucherParams = new URLSearchParams({
+    da: giftData.da, a: giftData.a, email: giftData.email || '',
+    servizio: giftData.servizio, variante: giftData.variante || '',
+    prezzo: giftData.prezzo || '', msg: giftData.msg || ''
+  });
+  const voucherLink = 'https://carusosaloon.it/success.html?' + voucherParams.toString();
+
   // Invia email con voucher tramite EmailJS
-  sendVoucherEmail(giftData, code);
+  sendVoucherEmail(giftData, code, voucherLink);
 
   // Pulisci localStorage
   localStorage.removeItem('caruso_regalo');
@@ -489,7 +518,7 @@ if (giftData) {
 }
 
 // ── Invia email voucher ──
-function sendVoucherEmail(data, code) {
+function sendVoucherEmail(data, code, voucherLink) {
   emailjs.init('XFQF0StUniwKymosZ');
 
   // Genera HTML del voucher per l'email
@@ -527,7 +556,12 @@ function sendVoucherEmail(data, code) {
           <div style="font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:#B8986A;">Un pensiero per te</div>
           <div style="font-family:Georgia,serif;font-style:italic;color:rgba(240,232,216,0.85);margin-top:0.4rem;">“${data.msg}”</div>
         </div>` : ''}
-        <div style="height:1px;background:rgba(184,152,106,0.2);margin-bottom:1rem;"></div>
+        <div style="height:1px;background:rgba(184,152,106,0.2);margin-bottom:1.5rem;"></div>
+        <div style="text-align:center;margin-bottom:1.5rem;">
+          <a href="${voucherLink}" style="display:inline-block;background:#B8986A;color:#000;font-family:Arial,sans-serif;font-size:0.7rem;font-weight:bold;letter-spacing:0.15em;text-transform:uppercase;padding:0.9rem 2rem;text-decoration:none;">
+            ⬇ Scarica Voucher PDF
+          </a>
+        </div>
         <div style="font-size:0.72rem;color:rgba(240,232,216,0.45);line-height:1.7;">
           Presentate questo voucher in reception al momento della prenotazione.<br>
           Per info: <strong style="color:#B8986A;">081 18655105</strong> (Aversa) · <strong style="color:#B8986A;">carusosaloon.it</strong>
