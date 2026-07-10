@@ -1142,7 +1142,7 @@ function giftPay() {
   if (giftSelected === null) { alert('Seleziona prima un rituale!'); return false; }
   const toName  = document.getElementById('gift-to').value.trim();
   const fromName = document.getElementById('gift-from').value.trim();
-  const email    = document.getElementById('gift-email') ? document.getElementById('gift-email').value.trim() : '';
+  const email    = document.getElementById('gift-email').value.trim();
   if (!toName)   { alert('Inserisci il nome del destinatario.'); return false; }
   if (!fromName) { alert('Inserisci il tuo nome.'); return false; }
   if (!email)    { alert('Inserisci la tua email per ricevere il voucher.'); return false; }
@@ -1154,19 +1154,20 @@ function giftPay() {
   const nome     = giftServizi[giftSelected].nome;
   const varLabel = { singolo_uomo:'Uomo', singolo_donna:'Donna', coppia_uomo:'Coppia ♂♂', coppia_mix:'Coppia ♂♀', coppia_donna:'Coppia ♀♀' }[key];
 
-  // Costruisci success_url con tutti i dati nell'URL
-  const successParams = new URLSearchParams({
+  // Salva nel localStorage PRIMA di aprire Stripe
+  localStorage.setItem('caruso_regalo', JSON.stringify({
     da: fromName, a: toName, email: email,
-    servizio: nome, variante: varLabel, prezzo: String(prezzo) + '€'
-  });
-  if (msg) successParams.set('msg', msg);
-  const successUrl = 'https://carusosaloon.it/success.html?' + successParams.toString();
+    servizio: nome, variante: varLabel,
+    prezzo: String(prezzo) + '€',
+    msg: msg, ts: Date.now()
+  }));
 
   // Dati per il dashboard Stripe
   const giftInfo = encodeURIComponent('REGALO | Da: ' + fromName + ' | A: ' + toName + ' | Servizio: ' + nome + ' ' + varLabel + ' ' + prezzo + '€' + (msg ? ' | Messaggio: ' + msg : ''));
-  const stripeUrl = link + '?success_url=' + encodeURIComponent(successUrl) + '&client_reference_id=' + giftInfo;
+  const stripeUrl = link + '?client_reference_id=' + giftInfo;
 
-  window.location.href = stripeUrl;
+  // Apri Stripe in nuova scheda — localStorage rimane nella scheda originale
+  window.open(stripeUrl, '_blank');
   return false;
 }
 
