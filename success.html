@@ -340,6 +340,7 @@
     .v-body { padding: 2rem 2.5rem; }
   }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -466,6 +467,9 @@ if (giftData) {
   const code = 'CS-' + Date.now().toString(36).toUpperCase().slice(-6);
   document.getElementById('v-code').textContent = code;
 
+  // Invia email con voucher tramite EmailJS
+  sendVoucherEmail(giftData, code);
+
   // Pulisci localStorage dopo aver letto
   localStorage.removeItem('caruso_regalo');
 
@@ -483,6 +487,68 @@ if (giftData) {
     </a>`;
   document.querySelector('.note').textContent = 'Per qualsiasi informazione contatta il salone al 081 18655105 o su WhatsApp.';
   document.title = 'Grazie — Caruso Saloon';
+}
+
+// ── Invia email voucher ──
+function sendVoucherEmail(data, code) {
+  emailjs.init('XFQF0StUniwKymosZ');
+
+  // Genera HTML del voucher per l'email
+  const voucherHtml = `
+    <div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:600px;margin:0 auto;border:1px solid #B8986A;padding:0;">
+      <div style="height:4px;background:linear-gradient(to right,#000,#B8986A,#E8C87A,#B8986A,#000);"></div>
+      <div style="padding:2rem 2.5rem;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:1.5rem;">
+          <div>
+            <div style="font-size:1.4rem;color:#D4B483;letter-spacing:0.06em;">Caruso Saloon</div>
+            <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:#B8986A;margin-top:0.3rem;">Ritual HairSpa · Aversa &amp; Frattamaggiore</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:#B8986A;">Gift Voucher</div>
+            <div style="font-size:1rem;color:#E8C87A;">Rituale di Lusso</div>
+          </div>
+        </div>
+        <div style="height:1px;background:linear-gradient(to right,transparent,#B8986A,transparent);margin-bottom:1.5rem;"></div>
+        <div style="text-align:center;margin-bottom:1.5rem;">
+          <div style="font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:#B8986A;">Il Rituale Scelto</div>
+          <div style="font-size:1.6rem;font-weight:300;color:#F0E8D8;margin-top:0.4rem;">${data.servizio} — ${data.prezzo}</div>
+          <div style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:#B8986A;margin-top:0.3rem;">${data.variante || ''}</div>
+        </div>
+        <div style="display:flex;gap:2rem;margin-bottom:1.5rem;">
+          <div>
+            <div style="font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:#B8986A;">Per</div>
+            <div style="font-size:1.1rem;color:#F0E8D8;margin-top:0.2rem;">${data.a}</div>
+          </div>
+          <div>
+            <div style="font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:#B8986A;">Con affetto da</div>
+            <div style="font-size:1.1rem;color:#F0E8D8;margin-top:0.2rem;">${data.da}</div>
+          </div>
+        </div>
+        ${data.msg ? `<div style="background:rgba(184,152,106,0.08);border-left:3px solid #B8986A;padding:1rem 1.2rem;margin-bottom:1.5rem;">
+          <div style="font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:#B8986A;">Un pensiero per te</div>
+          <div style="font-family:Georgia,serif;font-style:italic;color:rgba(240,232,216,0.85);margin-top:0.4rem;">“${data.msg}”</div>
+        </div>` : ''}
+        <div style="height:1px;background:rgba(184,152,106,0.2);margin-bottom:1rem;"></div>
+        <div style="font-size:0.72rem;color:rgba(240,232,216,0.45);line-height:1.7;">
+          Presentate questo voucher in reception al momento della prenotazione.<br>
+          Per info: <strong style="color:#B8986A;">081 18655105</strong> (Aversa) · <strong style="color:#B8986A;">carusosaloon.it</strong>
+        </div>
+        <div style="text-align:right;margin-top:0.8rem;">
+          <span style="font-size:0.7rem;color:rgba(240,232,216,0.3);">Codice: ${code}</span>
+        </div>
+      </div>
+      <div style="height:4px;background:linear-gradient(to right,#000,#B8986A,#E8C87A,#B8986A,#000);"></div>
+    </div>
+  `;
+
+  emailjs.send('service_uu5cshj', 'template_mt24nzt', {
+    to_email:     data.email,
+    voucher_html: voucherHtml,
+  }).then(() => {
+    console.log('Email voucher inviata a', data.email);
+  }).catch(err => {
+    console.warn('Errore invio email:', err);
+  });
 }
 
 // ── Download PDF ──
