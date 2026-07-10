@@ -434,23 +434,19 @@
 <p class="note">Il voucher non ha scadenza. Per prenotare il rituale il destinatario può contattare il salone tramite telefono, WhatsApp o dal sito carusosaloon.it</p>
 
 <script>
-// ── Leggi dati dall'URL ──
-function getParam(name) {
-  return new URLSearchParams(window.location.search).get(name) || '';
-}
-
-const da       = getParam('da');
-const a        = getParam('a');
-const email    = getParam('email');
-const servizio = getParam('servizio');
-const variante = getParam('variante');
-const prezzo   = getParam('prezzo');
-const msg      = getParam('msg');
-
-const giftData = da && a && servizio ? { da, a, email, servizio, variante, prezzo, msg } : null;
+// ── Leggi dati dal localStorage ──
+let giftData = null;
+try {
+  const raw = localStorage.getItem('caruso_regalo');
+  if (raw) {
+    giftData = JSON.parse(raw);
+    if (Date.now() - giftData.ts > 7200000) giftData = null; // scade dopo 2 ore
+  }
+} catch(e) { giftData = null; }
 
 if (giftData) {
   // ── MODALITÀ REGALO: mostra voucher completo ──
+  const { da, a, email, servizio, variante, msg, prezzo } = giftData;
 
   document.getElementById('v-to').textContent   = a || '—';
   document.getElementById('v-from').textContent = da || '—';
@@ -472,6 +468,9 @@ if (giftData) {
 
   // Invia email con voucher tramite EmailJS
   sendVoucherEmail(giftData, code);
+
+  // Pulisci localStorage
+  localStorage.removeItem('caruso_regalo');
 
   document.title = 'Voucher Regalo — Caruso Saloon';
 
