@@ -206,6 +206,16 @@ nav a:hover{color:var(--gold);}
 .card-price small{font-family:var(--sans);font-size:0.65rem;color:var(--low);font-weight:300;margin-left:2px;}
 .card-old{font-size:0.78rem;color:var(--low);text-decoration:line-through;margin-left:0.3rem;}
 .card-desc{font-size:0.8rem;color:var(--mid);line-height:1.85;flex:1;margin-bottom:1.3rem;}
+.card-details{margin-bottom:1.1rem;flex:1;}
+.card-details-toggle{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;font-family:var(--sans);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;}
+.card-details-toggle:hover{color:var(--gold-light);}
+.card-details-body{display:none;font-size:0.75rem;color:var(--mid);line-height:1.8;}
+.card-details-body.open{display:block;}
+.card-details-section{margin-bottom:0.7rem;}
+.card-details-section strong{display:block;font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;font-weight:400;}
+.card-details-section ul{list-style:none;padding:0;}
+.card-details-section ul li{padding:0.15rem 0;padding-left:0.8rem;position:relative;}
+.card-details-section ul li::before{content:'—';position:absolute;left:0;color:var(--gold);font-size:0.65rem;}
 .btn-card{display:flex;align-items:center;justify-content:center;gap:0.4rem;background:transparent;color:var(--gold);border:1px solid var(--gold);font-family:var(--sans);font-size:0.66rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;padding:0.8rem 1.5rem;cursor:pointer;transition:background 0.2s,color 0.2s;text-decoration:none;width:100%;}
 .btn-card:hover{background:var(--gold);color:#0D0D0D;}
 .card.featured{border-color:rgba(184,152,106,0.45);background:#111;}
@@ -504,6 +514,22 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
           </span>
         </div>
         <p class="card-desc desc-label">Un momento di benessere per i tuoi capelli… e per te. Shampoo rituale, maschera nutriente su misura e massaggio cuoio capelluto che dissolve ogni tensione.</p>
+        <div class="card-details">
+          <button class="card-details-toggle" onclick="toggleDetails(this)" aria-expanded="false">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+            Cosa include
+          </button>
+          <div class="card-details-body">
+            <div class="card-details-section">
+              <strong>Cosa include</strong>
+              <ul><li>Detersione profonda della cute</li><li>Massaggio relax alla testa, collo e spalle</li><li>Trattamento nutriente e rigenerante</li><li>Risciacquo con vapore e aromaterapia</li></ul>
+            </div>
+            <div class="card-details-section">
+              <strong>Perché sceglierlo</strong>
+              <p>Ideale per chi desidera un trattamento specifico per capelli sani e lucenti, eliminando stress e tensioni.</p>
+            </div>
+          </div>
+        </div>
         <a href="https://calendly.com/scintillaanselmo0/ritual-hairspa" target="_blank" class="btn-card book-link">Seleziona e Prenota</a>
       </div>
     </div>
@@ -540,6 +566,22 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
           </span>
         </div>
         <p class="card-desc desc-label">Capelli rigenerati e viso luminoso. Al rituale HairSpa si aggiunge un trattamento viso rigenerante per una bellezza che va oltre i capelli.</p>
+        <div class="card-details">
+          <button class="card-details-toggle" onclick="toggleDetails(this)" aria-expanded="false">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+            Cosa include
+          </button>
+          <div class="card-details-body">
+            <div class="card-details-section">
+              <strong>Cosa include</strong>
+              <ul><li>Tutto il trattamento HairSpa</li><li>Detersione viso delicata</li><li>Scrub viso illuminante</li><li>Maschera viso rigenerante</li><li>Massaggio viso, collo e décolleté</li></ul>
+            </div>
+            <div class="card-details-section">
+              <strong>Perché sceglierlo</strong>
+              <p>Aggiunge al benessere dei capelli un trattamento completo per il viso, per una bellezza che si riflette e si sente.</p>
+            </div>
+          </div>
+        </div>
         <a href="https://calendly.com/scintillaanselmo0/ritual-hairspa-clone" target="_blank" class="btn-card book-link">Seleziona e Prenota</a>
       </div>
     </div>
@@ -576,6 +618,22 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
           </span>
         </div>
         <p class="card-desc desc-label">Capelli rigenerati, corpo rilassato e mente leggera. Include massaggio corpo da 30 min. L'esperienza totale dedicata interamente a te.</p>
+        <div class="card-details">
+          <button class="card-details-toggle" onclick="toggleDetails(this)" aria-expanded="false">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+            Cosa include
+          </button>
+          <div class="card-details-body">
+            <div class="card-details-section">
+              <strong>Cosa include</strong>
+              <ul><li>Tutto il trattamento HairSpa</li><li>Massaggio corpo rilassante (30 min)</li><li>Oli essenziali e aromaterapia</li><li>Tecniche di rilassamento profondo</li></ul>
+            </div>
+            <div class="card-details-section">
+              <strong>Perché sceglierlo</strong>
+              <p>Unisce la cura dei capelli a un massaggio corpo completo, per un benessere totale e un rilassamento profondo.</p>
+            </div>
+          </div>
+        </div>
         <a href="https://calendly.com/scintillaanselmo0/ritual-hair-facespa-clone" target="_blank" class="btn-card book-link">Seleziona e Prenota</a>
       </div>
       <div class="featured-badge">Il più scelto</div>
@@ -613,6 +671,22 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
           </span>
         </div>
         <p class="card-desc desc-label">Un'esperienza di puro relax: massaggio a 4 mani per corpo e capelli, dove ogni tocco si trasforma in benessere totale. Due terapeute in perfetta sincronia.</p>
+        <div class="card-details">
+          <button class="card-details-toggle" onclick="toggleDetails(this)" aria-expanded="false">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+            Cosa include
+          </button>
+          <div class="card-details-body">
+            <div class="card-details-section">
+              <strong>Cosa include</strong>
+              <ul><li>Tutto il trattamento HairSpa</li><li>Massaggio corpo a 4 mani sincronizzato (30 min)</li><li>Aromaterapia e oli preziosi</li><li>Rilassamento mentale e fisico profondo</li></ul>
+            </div>
+            <div class="card-details-section">
+              <strong>Perché sceglierlo</strong>
+              <p>L'esperienza più esclusiva: 4 mani esperte lavorano in sinergia per regalarti il massimo del relax e del benessere.</p>
+            </div>
+          </div>
+        </div>
         <a href="https://calendly.com/scintillaanselmo0/ritual-hair-bodyspa-clone" target="_blank" class="btn-card book-link">Seleziona e Prenota</a>
       </div>
     </div>
@@ -1173,6 +1247,18 @@ function giftPay() {
 
 // Init gift list on page load
 document.addEventListener('DOMContentLoaded', giftRenderList);
+
+
+// ============================================================
+//  TOGGLE DETAILS CARD
+// ============================================================
+function toggleDetails(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = body.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  const svg = btn.querySelector('svg polyline');
+  if (svg) svg.setAttribute('points', isOpen ? '6,15 12,9 18,15' : '6,9 12,15 18,9');
+}
 
 // ============================================================
 //  SLIDESHOW
