@@ -376,6 +376,64 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
   .gift-container{grid-template-columns:1fr;}
 }
 
+/* ============ RECENSIONI (marquee) ============ */
+.reviews{padding:6rem 0;background:var(--bg);overflow:hidden;}
+.reviews-header{text-align:center;margin-bottom:3rem;padding:0 2rem;}
+.reviews-header .section-title{color:var(--cream);}
+.reviews-rating{display:flex;flex-direction:column;align-items:center;gap:0.4rem;margin-top:1rem;}
+.reviews-rating .rr-stars{display:flex;gap:3px;}
+.reviews-rating .rr-stars svg{width:20px;height:20px;fill:var(--gold);}
+.reviews-rating .rr-text{font-size:0.78rem;color:var(--mid);letter-spacing:0.05em;}
+.reviews-rating .rr-text strong{color:var(--gold-light);font-weight:400;}
+.reviews-viewport{position:relative;-webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);}
+.reviews-track{display:flex;gap:1.2rem;width:max-content;animation:marquee 60s linear infinite;padding:0 0.6rem;}
+.reviews-viewport:hover .reviews-track{animation-play-state:paused;}
+.review-card{flex:0 0 340px;max-width:340px;background:var(--bg3);border:1px solid var(--border);padding:1.8rem;display:flex;flex-direction:column;gap:0.9rem;}
+.review-stars{display:flex;gap:2px;}
+.review-stars svg{width:15px;height:15px;fill:var(--gold);}
+.review-text{font-family:var(--serif);font-size:1rem;font-style:italic;line-height:1.6;color:rgba(240,232,216,0.85);flex:1;}
+.review-meta{display:flex;align-items:center;gap:0.7rem;margin-top:0.4rem;}
+.review-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;color:#0D0D0D;font-family:var(--serif);font-size:1rem;font-weight:500;flex-shrink:0;}
+.review-who{display:flex;flex-direction:column;}
+.review-name{font-size:0.82rem;color:var(--cream);letter-spacing:0.03em;}
+.review-src{font-size:0.64rem;color:var(--low);letter-spacing:0.12em;text-transform:uppercase;}
+
+/* ============ GALLERIA (foto film-strip + video wall) ============ */
+.galleria{padding:6rem 0;background:var(--bg2);overflow:hidden;}
+.galleria-header{text-align:center;margin-bottom:3rem;padding:0 2rem;}
+.galleria-header .section-title{color:var(--cream);}
+.galleria-header p{font-size:0.88rem;color:var(--mid);max-width:480px;margin:0 auto;}
+.strip-viewport{position:relative;-webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);margin-bottom:3.5rem;}
+.gallery-track{display:flex;gap:1rem;width:max-content;animation:marquee 70s linear infinite;padding:0 0.5rem;}
+.strip-viewport:hover .gallery-track{animation-play-state:paused;}
+.gallery-card{flex:0 0 auto;width:230px;height:400px;overflow:hidden;position:relative;border:1px solid var(--border);}
+.gallery-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease;}
+.gallery-card:hover img{transform:scale(1.06);}
+
+/* VIDEO WALL */
+.video-wall-label{text-align:center;font-family:var(--sans);font-size:0.62rem;letter-spacing:0.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1.6rem;}
+.video-viewport{position:relative;-webkit-mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent);}
+.video-track{display:flex;gap:1rem;overflow-x:auto;padding:0.4rem 2rem 1.4rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.video-track::-webkit-scrollbar{display:none;}
+.video-card{flex:0 0 auto;width:240px;height:426px;position:relative;overflow:hidden;border:1px solid var(--border);cursor:pointer;scroll-snap-align:center;background:#000;}
+.video-card video{width:100%;height:100%;object-fit:cover;display:block;}
+.video-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 55%,rgba(0,0,0,0.55) 100%);pointer-events:none;}
+.video-card .vc-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:rgba(13,13,13,0.55);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;z-index:2;transition:background 0.2s,opacity 0.3s;}
+.video-card .vc-play svg{width:20px;height:20px;fill:var(--gold-light);margin-left:2px;}
+.video-card.playing .vc-play{opacity:0;}
+.video-card:hover .vc-play{background:rgba(184,152,106,0.25);}
+.video-hint{text-align:center;font-size:0.72rem;color:var(--mid);font-style:italic;margin-top:1.2rem;}
+
+/* VIDEO LIGHTBOX */
+.vlightbox{position:fixed;inset:0;z-index:2000;background:rgba(5,5,5,0.94);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:1.5rem;}
+.vlightbox.open{display:flex;}
+.vlightbox video{max-width:100%;max-height:88vh;width:auto;height:auto;border:1px solid var(--border);box-shadow:0 20px 70px rgba(0,0,0,0.7);}
+.vlightbox-close{position:absolute;top:1.4rem;right:1.6rem;width:44px;height:44px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--cream);font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:background 0.2s;}
+.vlightbox-close:hover{background:rgba(184,152,106,0.2);}
+
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@media (prefers-reduced-motion:reduce){.reviews-track,.gallery-track{animation:none;}}
+
 /* MOBILE */
 @media(max-width:768px){
   nav{display:none;}
@@ -391,6 +449,10 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
   .experience-content{padding:3rem 2rem;}
   .footer-top{grid-template-columns:1fr;gap:2rem;}
   .sedi-grid{grid-template-columns:1fr;}
+  .review-card{flex-basis:280px;max-width:280px;padding:1.5rem;}
+  .gallery-card{width:180px;height:320px;}
+  .video-card{width:210px;height:373px;}
+  .video-track{padding-left:1.2rem;padding-right:1.2rem;}
 }
 </style>
 </head>
@@ -401,10 +463,11 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
   <a href="#"><img src="logo_transparent.png" alt="Caruso Saloon" class="logo-img"></a>
   <nav id="main-nav">
     <a href="#trattamenti">Rituali</a>
+    <a href="#recensioni">Recensioni</a>
     <a href="#extra">Extra</a>
     <a href="#regalo">Regalo</a>
+    <a href="#galleria">Galleria</a>
     <a href="#sedi">Sedi</a>
-    <a href="#contatti">Contatti</a>
     <a href="#prenota" class="nav-cta">Prenota</a>
   </nav>
   <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -414,13 +477,9 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-slides" aria-hidden="true">
-    <div class="slide active"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
-    <div class="slide"></div>
-  </div>
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="sfondo-poster.jpg" aria-hidden="true">
+    <source src="sfondo.mp4" type="video/mp4">
+  </video>
   <div class="hero-overlay" aria-hidden="true"></div>
 
   <div class="hero-content">
@@ -431,13 +490,6 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
     <a href="#trattamenti" class="btn-primary">Scopri i Rituali</a>
   </div>
 
-  <div class="slide-dots" aria-hidden="true">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
   <div class="hero-scroll" aria-hidden="true">
     <span>Scorri</span>
     <div class="scroll-line"></div>
@@ -470,6 +522,27 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
       <h3>Due Sedi di Lusso</h3>
       <p>Ad Aversa e Frattamaggiore, ambienti curati per farti dimenticare il quotidiano.</p>
     </div>
+  </div>
+</section>
+
+<!-- RECENSIONI -->
+<section class="reviews" id="recensioni">
+  <div class="reviews-header">
+    <span class="section-label reveal">Le Voci dei Nostri Ospiti</span>
+    <h2 class="section-title reveal">Recensioni <em>5 Stelle</em></h2>
+    <div class="reviews-rating reveal">
+      <div class="rr-stars" aria-label="5 stelle su 5">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <span class="rr-text"><strong>5,0</strong> · Recensioni verificate dei nostri clienti</span>
+    </div>
+  </div>
+  <div class="reviews-viewport">
+    <div class="reviews-track" id="reviews-track"><!-- generato da JS --></div>
   </div>
 </section>
 
@@ -887,6 +960,33 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
   </div>
 </section>
 
+<!-- GALLERIA -->
+<section class="galleria" id="galleria">
+  <div class="galleria-header">
+    <span class="section-label reveal">Il Nostro Mondo</span>
+    <h2 class="section-title reveal">Galleria &amp; <em>Atmosfere</em></h2>
+    <p class="reveal">Un viaggio tra i nostri ambienti di lusso: luci soffuse, aromi e dettagli pensati per il tuo benessere.</p>
+  </div>
+
+  <!-- Foto: film-strip che scorre -->
+  <div class="strip-viewport">
+    <div class="gallery-track" id="gallery-track"><!-- generato da JS --></div>
+  </div>
+
+  <!-- Video wall -->
+  <p class="video-wall-label reveal">Guarda l'Esperienza</p>
+  <div class="video-viewport">
+    <div class="video-track" id="video-track"><!-- generato da JS --></div>
+  </div>
+  <p class="video-hint reveal">Tocca un video per riprodurlo a schermo intero con audio</p>
+</section>
+
+<!-- VIDEO LIGHTBOX -->
+<div class="vlightbox" id="vlightbox" role="dialog" aria-modal="true">
+  <button class="vlightbox-close" id="vlightbox-close" aria-label="Chiudi">&times;</button>
+  <video id="vlightbox-video" controls playsinline></video>
+</div>
+
 <!-- FOOTER -->
 <footer id="contatti">
   <div class="footer-divider"></div>
@@ -1261,16 +1361,117 @@ function toggleDetails(btn) {
 }
 
 // ============================================================
-//  SLIDESHOW
+//  RECENSIONI  (marquee)
+//  >>> SOSTITUIRE i testi qui sotto con le recensioni Google reali <<<
+//  Formato: { nome, testo }  —  l'iniziale dell'avatar è automatica
 // ============================================================
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelectorAll('.dot');
-let current = 0, timer;
-function goTo(i){slides[current].classList.remove('active');dots[current].classList.remove('active');current=i;slides[current].classList.add('active');dots[current].classList.add('active');}
-function next(){goTo((current+1)%slides.length);}
-function startTimer(){timer=setInterval(next,5000);}
-dots.forEach((d,i)=>{d.addEventListener('click',()=>{clearInterval(timer);goTo(i);startTimer();});});
-startTimer();
+const recensioni = [
+  { nome: 'Maria R.',      testo: 'Esperienza incredibile, mi sono sentita coccolata dall’inizio alla fine. Ambiente curatissimo e profumato. Tornerò sicuramente!' },
+  { nome: 'Giuseppe C.',   testo: 'La Hair Spa di coppia è stata un regalo perfetto. Location elegante, personale professionale e gentilissimo. Consigliatissimo.' },
+  { nome: 'Alessia P.',    testo: 'Un’oasi di relax vicino Napoli. Massaggio al cuoio capelluto da sogno e capelli morbidissimi. Cinque stelle meritate.' },
+  { nome: 'Francesco M.',  testo: 'Mai provato nulla di simile ad Aversa. Atmosfera da vera spa di lusso, candele, aromaterapia e cura del dettaglio.' },
+  { nome: 'Chiara D.',     testo: 'Personale attento e ambiente rilassante. Sono uscita rigenerata, capelli splendidi. Un momento tutto per me.' },
+  { nome: 'Luca S.',       testo: 'Servizio impeccabile e trattamento uomo top. Finalmente un posto dove rilassarsi davvero. Prezzo giusto per la qualità.' },
+  { nome: 'Valentina G.',  testo: 'Il rituale BodySpa è stato pura magia. Professionalità e accoglienza al top. La consiglio a tutte le mie amiche.' },
+  { nome: 'Antonio F.',    testo: 'Ambiente raffinato e rilassante, staff preparato. Sono andato per curiosità e ora ci torno ogni mese.' },
+];
+
+function starRow(){
+  const s='<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+  return '<div class="review-stars">'+s.repeat(5)+'</div>';
+}
+function renderReviews(){
+  const track=document.getElementById('reviews-track');
+  if(!track) return;
+  const card=r=>`<div class="review-card">
+      ${starRow()}
+      <p class="review-text">“${r.testo}”</p>
+      <div class="review-meta">
+        <div class="review-avatar">${r.nome.trim().charAt(0).toUpperCase()}</div>
+        <div class="review-who">
+          <span class="review-name">${r.nome}</span>
+          <span class="review-src">Google · ★★★★★</span>
+        </div>
+      </div>
+    </div>`;
+  // duplico l'elenco per il loop infinito
+  track.innerHTML = (recensioni.map(card).join('')).repeat(2);
+}
+
+// ============================================================
+//  GALLERIA FOTO  (film-strip che scorre)
+// ============================================================
+const galleryFoto = ['gallery1.jpg','gallery2.jpg','gallery3.jpg','gallery4.jpg','gallery5.jpg','gallery6.jpg','gallery7.jpg','gallery8.jpg','gallery9.jpg'];
+function renderGallery(){
+  const track=document.getElementById('gallery-track');
+  if(!track) return;
+  const card=src=>`<div class="gallery-card"><img src="${src}" alt="Ambiente Caruso Saloon Hair Spa" loading="lazy"></div>`;
+  track.innerHTML = (galleryFoto.map(card).join('')).repeat(2);
+}
+
+// ============================================================
+//  VIDEO WALL  +  LIGHTBOX
+// ============================================================
+const galleryVideo = [
+  { src:'reel1.mp4', poster:'reel1.jpg' },
+  { src:'reel2.mp4', poster:'reel2.jpg' },
+  { src:'reel3.mp4', poster:'reel3.jpg' },
+  { src:'reel4.mp4', poster:'reel4.jpg' },
+  { src:'reel5.mp4', poster:'reel5.jpg' },
+];
+function renderVideoWall(){
+  const track=document.getElementById('video-track');
+  if(!track) return;
+  track.innerHTML = galleryVideo.map(v=>`
+    <div class="video-card" data-src="${v.src}">
+      <video muted loop playsinline preload="none" poster="${v.poster}">
+        <source src="${v.src}" type="video/mp4">
+      </video>
+      <div class="vc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+    </div>`).join('');
+
+  // autoplay muto solo quando la card è visibile
+  const cards=track.querySelectorAll('.video-card');
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      const v=e.target.querySelector('video');
+      if(e.isIntersecting){
+        if(v.preload==='none'){v.preload='auto';v.load();}
+        v.play().then(()=>e.target.classList.add('playing')).catch(()=>{});
+      }else{
+        v.pause();e.target.classList.remove('playing');
+      }
+    });
+  },{threshold:0.6});
+  cards.forEach(c=>{
+    io.observe(c);
+    c.addEventListener('click',()=>openLightbox(c.dataset.src));
+  });
+}
+
+// LIGHTBOX
+function openLightbox(src){
+  const lb=document.getElementById('vlightbox');
+  const v=document.getElementById('vlightbox-video');
+  v.src=src;lb.classList.add('open');
+  document.body.style.overflow='hidden';
+  v.currentTime=0;v.muted=false;v.play().catch(()=>{});
+}
+function closeLightbox(){
+  const lb=document.getElementById('vlightbox');
+  const v=document.getElementById('vlightbox-video');
+  v.pause();v.removeAttribute('src');v.load();
+  lb.classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('vlightbox-close').addEventListener('click',closeLightbox);
+document.getElementById('vlightbox').addEventListener('click',(e)=>{if(e.target.id==='vlightbox')closeLightbox();});
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closeLightbox();});
+
+// init nuove sezioni
+renderReviews();
+renderGallery();
+renderVideoWall();
 
 // HEADER SCROLL
 const header=document.getElementById('main-header');
