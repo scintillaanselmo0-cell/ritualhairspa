@@ -400,6 +400,7 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
 
 /* ============ GALLERIA (foto film-strip + video wall) ============ */
 .galleria{padding:6rem 0;background:var(--bg2);overflow:hidden;}
+#galleria-video{background:var(--bg);}
 .galleria-header{text-align:center;margin-bottom:3rem;padding:0 2rem;}
 .galleria-header .section-title{color:var(--cream);}
 .galleria-header p{font-size:0.88rem;color:var(--mid);max-width:480px;margin:0 auto;}
@@ -413,9 +414,9 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
 /* VIDEO WALL */
 .video-wall-label{text-align:center;font-family:var(--sans);font-size:0.62rem;letter-spacing:0.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1.6rem;}
 .video-viewport{position:relative;-webkit-mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent);}
-.video-track{display:flex;gap:1rem;overflow-x:auto;padding:0.4rem 2rem 1.4rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-.video-track::-webkit-scrollbar{display:none;}
-.video-card{flex:0 0 auto;width:240px;height:426px;position:relative;overflow:hidden;border:1px solid var(--border);cursor:pointer;scroll-snap-align:center;background:#000;}
+.video-track{display:flex;gap:1rem;width:max-content;animation:marquee 55s linear infinite;padding:0.4rem 0.5rem 1.4rem;}
+.video-viewport:hover .video-track{animation-play-state:paused;}
+.video-card{flex:0 0 auto;width:240px;height:426px;position:relative;overflow:hidden;border:1px solid var(--border);cursor:pointer;background:#000;}
 .video-card video{width:100%;height:100%;object-fit:cover;display:block;}
 .video-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 55%,rgba(0,0,0,0.55) 100%);pointer-events:none;}
 .video-card .vc-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:rgba(13,13,13,0.55);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;z-index:2;transition:background 0.2s,opacity 0.3s;}
@@ -432,7 +433,7 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
 .vlightbox-close:hover{background:rgba(184,152,106,0.2);}
 
 @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-@media (prefers-reduced-motion:reduce){.reviews-track,.gallery-track{animation:none;}}
+@media (prefers-reduced-motion:reduce){.reviews-track,.gallery-track,.video-track{animation:none;}}
 
 /* MOBILE */
 @media(max-width:768px){
@@ -462,13 +463,13 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
 <header id="main-header">
   <a href="#"><img src="logo_transparent.png" alt="Caruso Saloon" class="logo-img"></a>
   <nav id="main-nav">
-    <a href="#trattamenti">Rituali</a>
     <a href="#recensioni">Recensioni</a>
+    <a href="#galleria">Galleria</a>
+    <a href="#trattamenti">Rituali</a>
     <a href="#extra">Extra</a>
     <a href="#regalo">Regalo</a>
-    <a href="#galleria">Galleria</a>
     <a href="#sedi">Sedi</a>
-    <a href="#prenota" class="nav-cta">Prenota</a>
+    <a href="#trattamenti" class="nav-cta">Prenota</a>
   </nav>
   <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -543,6 +544,18 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
   </div>
   <div class="reviews-viewport">
     <div class="reviews-track" id="reviews-track"><!-- generato da JS --></div>
+  </div>
+</section>
+
+<!-- GALLERIA FOTO -->
+<section class="galleria" id="galleria">
+  <div class="galleria-header">
+    <span class="section-label reveal">Il Nostro Mondo</span>
+    <h2 class="section-title reveal">Galleria &amp; <em>Atmosfere</em></h2>
+    <p class="reveal">Un viaggio tra i nostri ambienti di lusso: luci soffuse, aromi e dettagli pensati per il tuo benessere.</p>
+  </div>
+  <div class="strip-viewport">
+    <div class="gallery-track" id="gallery-track"><!-- generato da JS --></div>
   </div>
 </section>
 
@@ -813,6 +826,19 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
   <p class="extras-note reveal">✦ <strong>+10 minuti extra</strong> su ogni trattamento — 10€</p>
 </section>
 
+<!-- GALLERIA VIDEO -->
+<section class="galleria" id="galleria-video">
+  <div class="galleria-header">
+    <span class="section-label reveal">Guarda l'Esperienza</span>
+    <h2 class="section-title reveal">L'Esperienza <em>in Video</em></h2>
+    <p class="reveal">Lasciati trasportare tra rituali, gesti e atmosfere della nostra Hair Spa.</p>
+  </div>
+  <div class="video-viewport">
+    <div class="video-track" id="video-track"><!-- generato da JS --></div>
+  </div>
+  <p class="video-hint reveal">Tocca un video per riprodurlo a schermo intero con audio</p>
+</section>
+
 <!-- GIFT SECTION -->
 <section class="gift" id="regalo">
   <div class="gift-header">
@@ -874,23 +900,6 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
         Paga e Regala
       </a>
-    </div>
-  </div>
-</section>
-
-<!-- BOOKING -->
-<section class="booking" id="prenota">
-  <span class="section-label reveal">Prenota il Tuo Rituale</span>
-  <h2 class="section-title reveal">Riserva il tuo momento<br>di <em>pura bellezza</em></h2>
-  <p class="reveal">Scegli la data e l'orario che preferisci direttamente dal calendario.</p>
-  <div class="booking-placeholder reveal">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    <h3>Calendario Prenotazioni</h3>
-    <p>Inserisci qui il widget Calendly. Vedi le istruzioni nel codice HTML.</p>
-    <div class="booking-pills">
-      <span class="booking-pill">Calendly</span>
-      <span class="booking-pill">Acuity</span>
-      <span class="booking-pill">Stripe</span>
     </div>
   </div>
 </section>
@@ -958,27 +967,6 @@ footer{background:#080808;color:var(--low);padding:4rem 2rem 2rem;}
       <li>Servizio Privé su prenotazione</li>
     </ul>
   </div>
-</section>
-
-<!-- GALLERIA -->
-<section class="galleria" id="galleria">
-  <div class="galleria-header">
-    <span class="section-label reveal">Il Nostro Mondo</span>
-    <h2 class="section-title reveal">Galleria &amp; <em>Atmosfere</em></h2>
-    <p class="reveal">Un viaggio tra i nostri ambienti di lusso: luci soffuse, aromi e dettagli pensati per il tuo benessere.</p>
-  </div>
-
-  <!-- Foto: film-strip che scorre -->
-  <div class="strip-viewport">
-    <div class="gallery-track" id="gallery-track"><!-- generato da JS --></div>
-  </div>
-
-  <!-- Video wall -->
-  <p class="video-wall-label reveal">Guarda l'Esperienza</p>
-  <div class="video-viewport">
-    <div class="video-track" id="video-track"><!-- generato da JS --></div>
-  </div>
-  <p class="video-hint reveal">Tocca un video per riprodurlo a schermo intero con audio</p>
 </section>
 
 <!-- VIDEO LIGHTBOX -->
@@ -1422,13 +1410,15 @@ const galleryVideo = [
 function renderVideoWall(){
   const track=document.getElementById('video-track');
   if(!track) return;
-  track.innerHTML = galleryVideo.map(v=>`
+  const card=v=>`
     <div class="video-card" data-src="${v.src}">
       <video muted loop playsinline preload="none" poster="${v.poster}">
         <source src="${v.src}" type="video/mp4">
       </video>
       <div class="vc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-    </div>`).join('');
+    </div>`;
+  // duplico per il loop infinito orizzontale (come le foto)
+  track.innerHTML = (galleryVideo.map(card).join('')).repeat(2);
 
   // autoplay muto solo quando la card è visibile
   const cards=track.querySelectorAll('.video-card');
