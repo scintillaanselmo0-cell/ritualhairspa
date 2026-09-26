@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Pagina transazionale (voucher/conferma) — non indicizzare
+Disallow: /success.html
+
+Sitemap: https://carusosaloon.it/sitemap.xml

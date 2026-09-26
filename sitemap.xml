@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://carusosaloon.it/</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://carusosaloon.it/og-image.jpg</image:loc>
+      <image:title>Caruso Saloon — Hair Spa di lusso ad Aversa e Frattamaggiore</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://carusosaloon.it/gallery1.webp</image:loc>
+      <image:title>Sala trattamenti Hair Spa a Caruso Saloon Aversa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://carusosaloon.it/gallery2.webp</image:loc>
+      <image:title>Cabina Hair Spa con insegna al neon</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://carusosaloon.it/gallery3.webp</image:loc>
+      <image:title>Lettino Hair Spa con luci soffuse vicino Napoli</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://carusosaloon.it/gallery4.webp</image:loc>
+      <image:title>Fontana zen e candele nella Hair Spa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://carusosaloon.it/gallery5.webp</image:loc>
+      <image:title>Angolo relax con candele e aromi, Hair Spa Aversa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://carusosaloon.it/gallery6.webp</image:loc>
+      <image:title>Tavolino con candele per il rituale Hair Spa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://carusosaloon.it/gallery7.webp</image:loc>
+      <image:title>Lavabo di design con orchidea, Hair Spa di lusso</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://carusosaloon.it/gallery8.webp</image:loc>
+      <image:title>Sala Hair Spa di coppia a Frattamaggiore</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://carusosaloon.it/gallery9.webp</image:loc>
+      <image:title>Specchio retroilluminato e piante, Hair Spa</image:title>
+    </image:image>
+  </url>
+</urlset>
