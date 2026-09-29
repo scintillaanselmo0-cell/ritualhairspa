@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Voucher regalo</title>
+<style>
+:root{
+  --brand:#B8986A; --gold:#D4B483; --dark:#0D0D0D; --paper:#faf7f2;
+  --ink:#1a1a1a; --muted:#7a7367; --line:#e7e0d4; --card:#fff;
+  --font:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font); background:var(--dark); color:var(--ink);
+  min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:24px}
+.wrap{width:100%; max-width:460px}
+.msg{background:#fff; border-radius:16px; padding:26px; text-align:center; color:var(--muted)}
+.loading{color:#fff; text-align:center; padding:40px}
+
+/* voucher grafico */
+.voucher{
+  background:linear-gradient(160deg,#141414,#0d0d0d);
+  border:1px solid var(--brand); border-radius:20px; overflow:hidden;
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.7); color:#f0e8d8;
+}
+.voucher .top{padding:26px 26px 6px; text-align:center}
+.voucher .top img{max-height:60px; max-width:60%; object-fit:contain; margin-bottom:8px}
+.voucher .top .name{font-weight:800; font-size:20px; letter-spacing:.04em; color:var(--gold)}
+.voucher .kicker{text-align:center; letter-spacing:.35em; font-size:11px; color:var(--brand); margin:10px 0 0}
+.voucher .service{text-align:center; font-size:22px; font-weight:700; padding:6px 26px 0}
+.voucher .amount{text-align:center; color:var(--gold); font-size:15px; margin-top:4px}
+.voucher .body{padding:18px 26px 8px; font-size:14px; line-height:1.6}
+.voucher .row{display:flex; justify-content:space-between; border-top:1px solid rgba(184,152,106,.25); padding:9px 0}
+.voucher .row .k{color:var(--brand)}
+.voucher .msg-gift{font-style:italic; color:#e8e0d0; text-align:center; padding:12px 4px; opacity:.9}
+.voucher .code-box{margin:8px 26px 24px; background:rgba(184,152,106,.12); border:1px dashed var(--brand); border-radius:12px; padding:14px; text-align:center}
+.voucher .code-box .lbl{font-size:11px; letter-spacing:.2em; color:var(--brand)}
+.voucher .code-box .code{font-size:26px; font-weight:800; letter-spacing:3px; color:#fff; margin-top:4px}
+.used{display:inline-block; margin:0 26px 20px; color:#c9736a; font-weight:700}
+
+.actions{display:flex; gap:10px; margin-top:16px}
+.btn{flex:1; padding:13px; border-radius:12px; border:0; font-family:inherit; font-size:15px; font-weight:600; cursor:pointer; text-align:center; text-decoration:none}
+.btn.primary{background:var(--brand); color:#0d0d0d}
+.btn.ghost{background:transparent; color:#f0e8d8; border:1px solid var(--brand)}
+
+@media print{
+  body{background:#fff; padding:0}
+  .actions,.no-print{display:none !important}
+  .voucher{box-shadow:none; border:2px solid var(--brand)}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap"><div class="loading">Carico…</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const SUPABASE_URL      = "https://qorswaabqqcxpsmngbpo.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_xoKJtS9w_kv_dddgGl8Ycg_BC2UM0w6";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const params = new URLSearchParams(location.search);
+const CODE = (params.get("code") || "").trim();
+const PAID = params.get("paid") === "1";
+const $ = s => document.querySelector(s);
+const esc = s => (s??"").toString().replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const euro = c => (c==null)?"":(c/100).toLocaleString("it-IT",{style:"currency",currency:"EUR",minimumFractionDigits:0});
+
+(async()=>{
+  if(!CODE){
+    // arrivo post-pagamento senza codice: il voucher è stato inviato via email
+    $("#wrap").innerHTML = `<div class="msg">
+      <h2 style="color:var(--ink);margin:0 0 8px">Grazie! 🎁</h2>
+      <p>Il voucher è stato inviato via email all'indirizzo indicato.<br>Controlla anche lo spam.</p>
+    </div>`;
+    return;
+  }
+  const { data, error } = await sb.rpc("get_voucher",{ p_code: CODE });
+  if(error || !data){
+    $("#wrap").innerHTML = `<div class="msg"><h2 style="color:var(--ink);margin:0 0 8px">Voucher non trovato</h2><p>Controlla il codice o contatta l'attività.</p></div>`;
+    return;
+  }
+  render(data);
+})();
+
+function render(v){
+  const b = v.branding || {};
+  if(b.font){
+    document.documentElement.style.setProperty("--font", `"${b.font}", system-ui, sans-serif`);
+    const l=document.createElement("link"); l.rel="stylesheet";
+    l.href=`https://fonts.googleapis.com/css2?family=${b.font.replace(/ /g,"+")}:wght@400;600;700;800&display=swap`;
+    document.head.appendChild(l);
+  }
+  const logo = v.logo_path ? sb.storage.from("logos").getPublicUrl(v.logo_path).data.publicUrl : null;
+  const head = logo ? `<img src="${logo}" alt="${esc(v.attivita)}" />` : `<div class="name">${esc(v.attivita)}</div>`;
+  const used = v.status === "usato";
+
+  $("#wrap").innerHTML = `
+    <div class="voucher" id="voucher">
+      <div class="top">${head}<div class="kicker">VOUCHER REGALO</div></div>
+      <div class="service">${esc(v.service_name||"")}</div>
+      ${v.amount_cents!=null?`<div class="amount">${euro(v.amount_cents)}</div>`:""}
+      <div class="body">
+        <div class="row"><span class="k">Da</span><span>${esc(v.from_name||"")}</span></div>
+        <div class="row"><span class="k">Per</span><span>${esc(v.to_name||"")}</span></div>
+      </div>
+      ${v.message?`<div class="msg-gift">“${esc(v.message)}”</div>`:""}
+      <div class="code-box">
+        <div class="lbl">CODICE</div>
+        <div class="code">${esc(v.code)}</div>
+      </div>
+      ${used?`<div class="used">Voucher già utilizzato</div>`:""}
+    </div>
+    <div class="actions no-print">
+      <button class="btn primary" id="dlBtn">Scarica / Condividi</button>
+    </div>`;
+  const dl=document.getElementById("dlBtn");
+  if(dl) dl.addEventListener("click", ()=>downloadPdf(v.code));
+}
+
+async function downloadPdf(code){
+  const btn=document.getElementById("dlBtn");
+  const el=document.getElementById("voucher");
+  if(!el) return;
+  const old = btn ? btn.textContent : "";
+  if(btn){ btn.textContent="Preparo…"; btn.disabled=true; }
+  const fileName = "voucher-"+(code||"regalo")+".pdf";
+  try{
+    const canvas = await html2canvas(el, { scale:2, backgroundColor:null, useCORS:true });
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: canvas.width>canvas.height?"l":"p", unit:"pt", format:[canvas.width, canvas.height] });
+    pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
+    const blob = pdf.output("blob");
+    const file = new File([blob], fileName, { type:"application/pdf" });
+
+    // su telefono: apre il foglio "Condividi/Salva" nativo
+    if(navigator.canShare && navigator.canShare({ files:[file] })){
+      try{
+        await navigator.share({ files:[file], title:"Voucher regalo" });
+        if(btn){ btn.textContent=old||"Scarica / Condividi"; btn.disabled=false; }
+        return;
+      }catch(shareErr){
+        // se l'utente annulla la condivisione, non forziamo il download
+        if(shareErr && shareErr.name==="AbortError"){ if(btn){ btn.textContent=old||"Scarica / Condividi"; btn.disabled=false; } return; }
+      }
+    }
+    // su PC (o se la condivisione non è supportata): download classico
+    const url = URL.createObjectURL(blob);
+    const a=document.createElement("a"); a.href=url; a.download=fileName; a.click();
+    setTimeout(()=>URL.revokeObjectURL(url), 4000);
+  }catch(e){
+    try{
+      const canvas = await html2canvas(el, { scale:2, backgroundColor:null, useCORS:true });
+      const a=document.createElement("a"); a.href=canvas.toDataURL("image/png"); a.download="voucher-"+(code||"regalo")+".png"; a.click();
+    }catch(_){ alert("Impossibile generare il file. Fai uno screenshot del voucher."); }
+  }
+  if(btn){ btn.textContent=old||"Scarica / Condividi"; btn.disabled=false; }
+}
+</script>
+</body>
+</html>
