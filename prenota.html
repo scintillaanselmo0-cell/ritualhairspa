@@ -197,6 +197,14 @@ function renderApptForm(){
   const price = SERVICE.price_cents!=null ? ` · ${euro(SERVICE.price_cents)}` : "";
   const dur = SERVICE.duration_min ? ` · ${SERVICE.duration_min} min` : "";
 
+  // Selettore data libero: min = oggi, max = +3 anni (nessun limite ~45 giorni).
+  const today=new Date(); today.setHours(0,0,0,0);
+  const maxDate=new Date(today); maxDate.setFullYear(maxDate.getFullYear()+3);
+  const minStr=ymd(today), maxStr=ymd(maxDate);
+  // default: primo giorno valido secondo le regole del servizio, altrimenti oggi.
+  const firstValid=(allowedDates(APPT_RULES)[0]) || today;
+  const initStr=ymd(firstValid);
+
   $("#card").innerHTML = `
     <div class="head">${head}<h1>Prenota il tuo appuntamento</h1></div>
     <div class="body">
@@ -209,11 +217,11 @@ function renderApptForm(){
       <div class="row2 grp">
         <div>
           <label class="lab" for="date">Giorno</label>
-          <select id="date" class="f"></select>
+          <input id="date" class="f" type="date" min="${minStr}" max="${maxStr}" value="${initStr}" aria-label="Scegli il giorno dell'appuntamento" />
         </div>
         <div>
           <label class="lab" for="time">Orario</label>
-          <select id="time" class="f"></select>
+          <select id="time" class="f" aria-label="Scegli l'orario"></select>
         </div>
       </div>
 
@@ -248,13 +256,6 @@ function renderApptForm(){
       </div>
       <div id="fullPanel" class="grp" style="display:none"></div>
     </div>`;
-
-  // popola i giorni validi
-  const dates=allowedDates(APPT_RULES);
-  const dsel=$("#date");
-  dsel.innerHTML = dates.length
-    ? dates.map(d=>`<option value="${ymd(d)}">${esc(fmtDateOpt(d))}</option>`).join("")
-    : `<option value="">Nessuna data disponibile</option>`;
 
   $("#privacyToggle").addEventListener("click",()=>$("#privacyFull").classList.toggle("show"));
   $("#date").addEventListener("change", apptRefreshSlots);
